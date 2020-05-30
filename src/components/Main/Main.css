@@ -1,0 +1,24 @@
+.main-container {
+  width: 100%;
+  height: 99vh;
+  padding: 65px 80px;
+  box-sizing: border-box;
+}
+
+.main-box {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  height: 100%;
+  /* background-color: purple; */
+}
+
+.main-footer {
+  width: 100%;
+  height: 1vh;
+  background-color: #e4a400;
+}
+
+.main-section {
+    padding: 122px 0 0 77px;
+}

@@ -1,0 +1,100 @@
+.grid-container {
+    /* background-color: sandybrown; */
+    width: 100%;
+    
+}
+
+.grid-line {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    height: 58px;
+    /* background-color: sandybrown; */
+    padding-bottom: 2px;
+}
+
+.grid-block-transport {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-right: 2px;
+    background-color: #6A706C;
+    padding: 0 4px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.grid-block-pattern {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 10px;
+    width: 263px;
+}
+
+.grid-block-pattern-line {
+/* position: relative; */
+width: 23px;
+height: 0px;
+border: 1px solid #302E2E;
+transform: rotate(90deg);
+}
+
+.grid-block-pattern-name {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.grid-icons-play button{
+    font-size: 20px;
+    width: 58px;
+    height: 100%;
+    background-color: inherit;
+    color: white;
+    border: 0px;
+    outline: 0;
+}
+
+.grid-block-instrument {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #6A706C;
+}
+
+.grid-block-instrument-name {
+    width: 175px;
+    height: 100%;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 0 15px;
+    margin-right: 1px;
+    background-color: #6A706C;
+    color: white;
+    text-transform: uppercase; 
+}
+
+.grid-block-instrument-name-button {
+    width: 175px;
+    height: 100%;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 0 15px;
+    margin-right: 1px;
+    background-color: #6A706C;
+    color: white;
+    text-transform: uppercase; 
+    border: 0px;
+    outline: 0;
+}
+
+.grid-block-sequence {
+    width: 55px;
+    height: 100%;
+    margin: 0 1px;
+    background-color: #6A706C
+
+}
