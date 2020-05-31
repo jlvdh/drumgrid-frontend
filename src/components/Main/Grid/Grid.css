@@ -98,3 +98,11 @@ transform: rotate(90deg);
     background-color: #6A706C
 
 }
+
+.grid-block-sequence-yellow {
+    width: 55px;
+    height: 100%;
+    margin: 0 1px;
+    background-color: #E4A400;
+
+}

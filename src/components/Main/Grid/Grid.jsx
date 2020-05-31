@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as Tone from "tone";
 import "./Grid.css";
+import { gridInitData } from "./GridInitData/GridInitData";
 
 // Samples
 import C1 from "./Samples/kick.mp3";
@@ -12,133 +13,24 @@ import F1 from "./Samples/openhh.mp3";
 // Font Awesome Icons
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faPause } from "@fortawesome/free-solid-svg-icons";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
 
 export default class Grid extends Component {
   state = {
-    initializedAudio: false,
+    playButtonDisabled: true,
     showPlayIcon: true,
     yellowGridBlock: false,
     musicTransport: true,
     samplerLoaded: false,
     transport: "",
-    gridData: []
+    gridData: gridInitData,
   };
 
   componentDidMount() {
-    // Tone.start();
-    Tone.context.latencyHint = "balanced";
-    console.log("audio is ready");
+    // Tone.context.latencyHint = "balanced";
+    Tone.context.latencyHint = "fastest";
     this.loadSampler();
     this.refreshData();
-    const gridDataInit = [
-      {
-        pattern: "MyFirstPattern",
-        options: {
-          tempo: 120,
-          swing: 0,
-          mainvol: 80,
-        },
-        grid: [
-          {
-            name: "kick",
-            sound: "C1",
-            vol: 1,
-            muted: 0,
-            steps: [
-              { time: "0:0:0", active: 0, id: 0 },
-              { time: "0:0:2", active: 0, id: 0 },
-              { time: "0:1:0", active: 0, id: 0 },
-              { time: "0:1:2", active: 1, id: 0 },
-              { time: "0:2:0", active: 0, id: 0 },
-              { time: "0:2:2", active: 0, id: 0 },
-              { time: "0:3:0", active: 0, id: 0 },
-              { time: "0:3:2", active: 0, id: 0 },
-              { time: "1:0:0", active: 1, id: 0 },
-              { time: "1:0:2", active: 0, id: 0 },
-              { time: "1:1:0", active: 0, id: 0 },
-              { time: "1:1:2", active: 0, id: 0 },
-              { time: "1:2:0", active: 0, id: 0 },
-              { time: "1:2:2", active: 1, id: 0 },
-              { time: "1:3:0", active: 0, id: 0 },
-              { time: "1:3:2", active: 0, id: 0 },
-            ],
-          },
-          {
-            name: "clap",
-            sound: "D1",
-            vol: 1,
-            muted: 0,
-            steps: [
-              { time: "0:0:0", active: 0, id: 0 },
-              { time: "0:0:2", active: 1, id: 0 },
-              { time: "0:1:0", active: 0, id: 0 },
-              { time: "0:1:2", active: 0, id: 0 },
-              { time: "0:2:0", active: 0, id: 0 },
-              { time: "0:2:2", active: 0, id: 0 },
-              { time: "0:3:0", active: 1, id: 0 },
-              { time: "0:3:2", active: 0, id: 0 },
-              { time: "1:0:0", active: 0, id: 0 },
-              { time: "1:0:2", active: 0, id: 0 },
-              { time: "1:1:0", active: 0, id: 0 },
-              { time: "1:1:2", active: 1, id: 0 },
-              { time: "1:2:0", active: 1, id: 0 },
-              { time: "1:2:2", active: 0, id: 0 },
-              { time: "1:3:0", active: 0, id: 0 },
-              { time: "1:3:2", active: 1, id: 0 },
-            ],
-          },
-          {
-            name: "closed hihat",
-            sound: "E1",
-            vol: 1,
-            muted: 0,
-            steps: [
-              { time: "0:0:0", active: 0, id: 0 },
-              { time: "0:0:2", active: 0, id: 0 },
-              { time: "0:1:0", active: 0, id: 0 },
-              { time: "0:1:2", active: 0, id: 0 },
-              { time: "0:2:0", active: 1, id: 0 },
-              { time: "0:2:2", active: 0, id: 0 },
-              { time: "0:3:0", active: 0, id: 0 },
-              { time: "0:3:2", active: 1, id: 0 },
-              { time: "1:0:0", active: 1, id: 0 },
-              { time: "1:0:2", active: 0, id: 0 },
-              { time: "1:1:0", active: 0, id: 0 },
-              { time: "1:1:2", active: 0, id: 0 },
-              { time: "1:2:0", active: 0, id: 0 },
-              { time: "1:2:2", active: 0, id: 0 },
-              { time: "1:3:0", active: 0, id: 0 },
-              { time: "1:3:2", active: 1, id: 0 },
-            ],
-          },
-          {
-            name: "open hihat",
-            sound: "F1",
-            vol: 1,
-            muted: 0,
-            steps: [
-              { time: "0:0:0", active: 0, id: 0 },
-              { time: "0:0:2", active: 0, id: 0 },
-              { time: "0:1:0", active: 1, id: 0 },
-              { time: "0:1:2", active: 1, id: 0 },
-              { time: "0:2:0", active: 0, id: 0 },
-              { time: "0:2:2", active: 0, id: 0 },
-              { time: "0:3:0", active: 0, id: 0 },
-              { time: "0:3:2", active: 0, id: 0 },
-              { time: "1:0:0", active: 1, id: 0 },
-              { time: "1:0:2", active: 0, id: 0 },
-              { time: "1:1:0", active: 0, id: 0 },
-              { time: "1:1:2", active: 1, id: 0 },
-              { time: "1:2:0", active: 0, id: 0 },
-              { time: "1:2:2", active: 0, id: 0 },
-              { time: "1:3:0", active: 1, id: 0 },
-              { time: "1:3:2", active: 0, id: 0 },
-            ],
-          },
-        ],
-      },
-    ];
-    this.setState({gridData: gridDataInit})
   }
 
   componentWillUnmount() {
@@ -147,63 +39,103 @@ export default class Grid extends Component {
 
   refreshData = () => {
     const transportpos = Tone.Transport.position;
-    // console.log(Tone.Transport.progress)
+    console.log(Tone.Transport.progress);
     this.setState({ transport: transportpos });
+    this.setState({ gridData: this.state.gridData });
   };
 
   loadSampler = () => {
-      this.sampler = new Tone.Players(
-        {
-          C1,
-          D1,
-          E1,
-          F1,
-        },
-        {
-          volume: -1,
-          fadeOut: "64n",
-          onload: () => {
-            this.setState({ samplerLoaded: true });
-          },
-        }
-      ).toMaster();
+    // const drumSamples = new Tone.Buffers({
+    //   C1, D1, E1, F1
+    // })
 
+    this.sampler = new Tone.Players(
+      {
+        C1,
+        D1,
+        E1,
+        F1,
+      },
+      {
+        volume: -1,
+        fadeOut: "64n",
+        onload: () => {
+          this.setState({ samplerLoaded: true });
+          Tone.start();
+          console.log("audio is ready");
+          this.setState({playButtonDisabled: false})
+        },
+      }
+    ).toMaster();
   };
 
   playButton = (e) => {
     console.log("click");
     e.preventDefault();
-    // this.setState({ initializedAudio: true });
     this.setState({ showPlayIcon: !this.state.showPlayIcon, musicTransport: !this.state.musicTransport });
     this.synthTestLoop();
   };
 
   playSample = (e, sample) => {
-    if (e) {e.preventDefault();}
-    // if (!time) {time = 0}
-    this.sampler.get(sample).start(0, 0, "128m", 0, 0.8);
-    console.log("playsample");
+    // if (e) {
+    //   e.preventDefault();
+    // }
+    // this.sampler.get(sample).start(0, 0, "128m", 0, 0.8);
+    this.sampler.get(sample).start();
   };
 
-  changeGridBlock = () => {
-    
-  }
+  scheduleTimelineBlock = (position, sound, gridSoundPosition, gridStepPosition) => {
+    const gridArray = this.state.gridData[0].grid;
 
+    const scheduleID = Tone.Transport.schedule((time) => {
+      this.playSample("", sound);
+    }, position);
+
+    gridArray[gridSoundPosition].steps[gridStepPosition].id = scheduleID;
+  };
+
+  clearTimelineBlock = (scheduleId, gridSoundPosition, gridStepPosition) => {
+    const gridArray = this.state.gridData[0].grid;
+    let gridId = gridArray[gridSoundPosition].steps[gridStepPosition].id;
+
+    if (gridId >= 0) {
+      Tone.Transport.clear(scheduleId);
+      gridId = null;
+    } else {
+      console.log("GridID was empty");
+    }
+  };
+
+  changeGridBlock = (stepValue, elemSound, elemMuted) => {
+    const gridArray = this.state.gridData[0].grid;
+    //console.log(`${stepValue.time}, elemSound: ${elemSound}, elemMuted: ${elemMuted}`);
+
+    const findSoundNumber = gridArray.findIndex((x) => x.sound === elemSound);
+    const findStepNumber = gridArray[findSoundNumber].steps.findIndex((y) => y.time === stepValue.time);
+    gridArray[findSoundNumber].steps[findStepNumber].active = !gridArray[findSoundNumber].steps[findStepNumber].active;
+    let gridActive = gridArray[findSoundNumber].steps[findStepNumber].active;
+    let gridId = gridArray[findSoundNumber].steps[findStepNumber].id;
+
+    if (gridActive) {
+      this.scheduleTimelineBlock(stepValue.time, elemSound, findSoundNumber, findStepNumber);
+    } else {
+      this.clearTimelineBlock(gridId, findSoundNumber, findStepNumber);
+    }
+    this.refreshData();
+  };
 
   synthTestLoop = () => {
     console.log("loop");
 
-
-    Tone.Transport.bpm.value = 180;
+    Tone.Transport.bpm.value = 120;
 
     // Check for start/stop
     if (this.state.musicTransport) {
       Tone.Transport.position = "0";
-      Tone.Transport.setLoopPoints(0, "2m");
+      Tone.Transport.setLoopPoints(0, "1m");
       Tone.Transport.loop = true;
-      Tone.Transport.start("+0.1");
+      Tone.Transport.start();
 
-      
       // Tone.Transport.schedule(this.playme, '3,9m')
       // Tone.Transport.schedule((time) => {
       //   console.log('DING')
@@ -253,39 +185,25 @@ export default class Grid extends Component {
 
       this.intervalId = setInterval(this.refreshData.bind(this), 50);
     } else {
-      Tone.Transport.position = "0:0:0";
       Tone.Transport.stop();
+      Tone.Transport.position = "0";
       clearInterval(this.intervalId);
       this.refreshData();
     }
   };
 
   render() {
-    // const gridLevel = [
-    //   "0:0",
-    //   "0:0:2",
-    //   "0:1",
-    //   "0:1:2",
-    //   "0:2",
-    //   "0:2:2",
-    //   "0:3",
-    //   "0:3:2",
-    //   "1:0",
-    //   "1:0:2",
-    //   "1:1",
-    //   "1:1:2",
-    //   "1:2",
-    //   "1:2:2",
-    //   "1:3",
-    //   "1:3:2",
-    // ];
-
     return (
       <>
         <div className="grid-container noselect">
           <div className="grid-line">
             <div className="grid-block-transport grid-icons-play">
-              {this.state.showPlayIcon ? (
+              {this.state.playButtonDisabled && (
+                <button>
+                  <FontAwesomeIcon id="grid-icons-play-button" icon={faClock} />
+                </button>
+              )}
+              {!this.state.playButtonDisabled && this.state.showPlayIcon ? (
                 <button>
                   <FontAwesomeIcon id="grid-icons-play-button" icon={faPlay} onClick={this.playButton} />
                 </button>
@@ -301,54 +219,37 @@ export default class Grid extends Component {
               <span className="grid-block-pattern-name">{this.state.transport}</span>
             </div>
           </div>
-          <div className="grid-line">
-            <div className="grid-block-instrument grid-block-instrument-name" onClick={(e) => this.playSample(e, "C1")}>
-              kick
-            </div>
-            {gridLevel.map((element, key) => (
+          {/* Start of grid system */}
+          {/* -------------------- */}
+          {this.state.gridData[0].grid.map((elem, key) => (
+            <div key={key} className="grid-line">
               <div
-                key={key}
-                className="grid-block-instrument grid-block-sequence"
-                onClick={() => console.log("gridclick")}
-              />
-            ))}
-          </div>
-          <div className="grid-line">
-            <div className="grid-block-instrument grid-block-instrument-name" onClick={(e) => this.playSample(e, "D1")}>
-              clap
+                className="grid-block-instrument grid-block-instrument-name"
+                onClick={(e) => this.playSample(e, elem.sound)}
+              >
+                {elem.name}
+              </div>
+              {elem.steps.map((value, key) => {
+                if (!value.active) {
+                  return (
+                    <div
+                      key={key}
+                      className="grid-block-instrument grid-block-sequence"
+                      onClick={(e) => this.changeGridBlock(value, elem.sound, elem.muted)}
+                    />
+                  );
+                } else {
+                  return (
+                    <div
+                      key={key}
+                      className="grid-block-instrument grid-block-sequence-yellow"
+                      onClick={(e) => this.changeGridBlock(value, elem.sound, elem.muted)}
+                    />
+                  );
+                }
+              })}
             </div>
-            {gridLevel.map((element, key) => (
-              <div
-                key={key}
-                className="grid-block-instrument grid-block-sequence"
-                onClick={() => console.log("gridclick")}
-              />
-            ))}
-          </div>
-          <div className="grid-line">
-            <div className="grid-block-instrument grid-block-instrument-name" onClick={(e) => this.playSample(e, "E1")}>
-              closed hihat
-            </div>
-            {gridLevel.map((element, key) => (
-              <div
-                key={key}
-                className="grid-block-instrument grid-block-sequence"
-                onClick={() => console.log("gridclick")}
-              />
-            ))}
-          </div>
-          <div className="grid-line">
-            <div className="grid-block-instrument grid-block-instrument-name-button" onClick={(e) => this.playSample(e, "F1")}>
-              open hihat
-            </div>
-            {gridLevel.map((element, key) => (
-              <div
-                key={key}
-                className="grid-block-instrument grid-block-sequence"
-                onClick={() => console.log("gridclick")}
-              />
-            ))}
-          </div>
+          ))}
         </div>
       </>
     );
