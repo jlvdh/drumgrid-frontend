@@ -5,6 +5,7 @@
     align-items: center;
     height: 34px;
     width: 100%;
+    min-width: 822px;
 }
 
 .navbar-box p {

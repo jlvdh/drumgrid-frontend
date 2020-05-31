@@ -14,6 +14,10 @@ import F1 from "./Samples/openhh.mp3";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faPause } from "@fortawesome/free-solid-svg-icons";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faVolumeDown } from "@fortawesome/free-solid-svg-icons";
+
 
 export default class Grid extends Component {
   state = {
@@ -24,31 +28,41 @@ export default class Grid extends Component {
     samplerLoaded: false,
     transport: "",
     gridData: gridInitData,
+    pianoBarLeft: 364,
+    pianoBarHeight: 238,
+    pianoBarMaxWidth: 0,
+    toneBPM: 120,
   };
 
   componentDidMount() {
-    // Tone.context.latencyHint = "balanced";
+    // Use the fastest timing available, otherwise we get timing issues
     Tone.context.latencyHint = "fastest";
     this.loadSampler();
     this.refreshData();
+
+    // Calculate the width of the grid for the pianobar position
+    const resizeObserver = new ResizeObserver((element) => {
+      this.setState({ pianoBarMaxWidth: element[0].contentRect.width });
+    });
+    resizeObserver.observe(document.getElementById("gridContainer"));
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalId);
+    this.resizeObserver.current.unobserve();
   }
 
   refreshData = () => {
     const transportpos = Tone.Transport.position;
-    console.log(Tone.Transport.progress);
-    this.setState({ transport: transportpos });
-    this.setState({ gridData: this.state.gridData });
+    const transportprogress = Math.round(Tone.Transport.progress * 100);
+    this.setState({
+      transport: transportpos,
+      gridData: this.state.gridData,
+      pianoBarLeft: 364 + ((this.state.pianoBarMaxWidth - 210) / 100) * transportprogress,
+    });
   };
 
   loadSampler = () => {
-    // const drumSamples = new Tone.Buffers({
-    //   C1, D1, E1, F1
-    // })
-
     this.sampler = new Tone.Players(
       {
         C1,
@@ -60,10 +74,10 @@ export default class Grid extends Component {
         volume: -1,
         fadeOut: "64n",
         onload: () => {
-          this.setState({ samplerLoaded: true });
-          Tone.start();
-          console.log("audio is ready");
-          this.setState({playButtonDisabled: false})
+          Tone.start().then(
+            console.log("Audio is ready."),
+            this.setState({ samplerLoaded: true, playButtonDisabled: false })
+          );
         },
       }
     ).toMaster();
@@ -127,7 +141,7 @@ export default class Grid extends Component {
   synthTestLoop = () => {
     console.log("loop");
 
-    Tone.Transport.bpm.value = 120;
+    Tone.Transport.bpm.value = this.state.toneBPM;
 
     // Check for start/stop
     if (this.state.musicTransport) {
@@ -135,55 +149,7 @@ export default class Grid extends Component {
       Tone.Transport.setLoopPoints(0, "1m");
       Tone.Transport.loop = true;
       Tone.Transport.start();
-
-      // Tone.Transport.schedule(this.playme, '3,9m')
-      // Tone.Transport.schedule((time) => {
-      //   console.log('DING')
-      //   this.playSample("", "F1");
-      // }, "0:0");
-      // Tone.Transport.schedule((time) => {
-      //   console.log('DING')
-      //   this.playSample("", "C1");
-      // }, "0:0");
-      // Tone.Transport.schedule((time) => {
-      //         console.log("DING");
-      //         this.playSample("", "D1");
-      //       }, "0:1");
-      // Tone.Transport.schedule((time) => {
-      //   console.log('DING')
-      //   this.playSample("", "E1");
-      // }, "0:0:2");
-      //       Tone.Transport.schedule((time) => {
-      //         console.log("DING");
-      //         this.playSample("", "C1");
-      //       }, "0:1");
-
-      // Tone.Transport.schedule((time) => {
-      //   console.log('DING')
-      //   this.playSample("", "F1");
-      // }, "1:0");
-
-      // Tone.Transport.schedule((time) => {
-      //   console.log("DING");
-      //   this.playSample("", "F1");
-      // }, "1:1");
-      // Tone.Transport.schedule((time) => {
-      //   console.log("DING");
-      //   this.playSample("", "F1");
-      // }, "1:2");
-      // Tone.Transport.schedule((time) => {
-      //   console.log("DING");
-      //   this.playSample("", "F1");
-      // }, "1:3");
-      //       Tone.Transport.schedule((time) => {
-      //   console.log("DING");
-      //   this.playSample("", "F1");
-      // }, "1:3:2");
-
-      // normalised timeline
-      //console.log(Tone.Timeline)
-
-      this.intervalId = setInterval(this.refreshData.bind(this), 50);
+      this.intervalId = setInterval(this.refreshData.bind(this), 25);
     } else {
       Tone.Transport.stop();
       Tone.Transport.position = "0";
@@ -196,7 +162,15 @@ export default class Grid extends Component {
     return (
       <>
         <div className="grid-container noselect">
-          <div className="grid-line">
+          {/* Place pianoroll line */}
+          {!this.state.showPlayIcon && (
+            <div
+              className="grid-pianoroll-line"
+              style={{ left: this.state.pianoBarLeft, height: this.state.pianoBarHeight }}
+            />
+          )}
+          {/* Start of transport lane */}
+          <div id="gridContainer" className="grid-line">
             <div className="grid-block-transport grid-icons-play">
               {this.state.playButtonDisabled && (
                 <button>
@@ -218,9 +192,28 @@ export default class Grid extends Component {
               <span className="grid-block-pattern-line" />
               <span className="grid-block-pattern-name">{this.state.transport}</span>
             </div>
+            <div className="grid-block-transport grid-block-reset-grid">
+              RESET
+              <br />
+              GRID
+            </div>
+            <div className="grid-block-transport grid-block-tempo-lane grid-block-tempo-lane-arrow">
+              <FontAwesomeIcon icon={faChevronRight} />
+              <FontAwesomeIcon icon={faChevronRight} />
+              <span className="grid-block-tempo-lane-spacer">TEMPO</span>
+              <span className="grid-block-tempo-lane-line " />
+              <span className="grid-block-tempo-lane-bpm">{this.state.toneBPM} bpm</span>
+            </div>
+            <div className="grid-block-transport grid-block-volume-lane grid-block-volume-lane-speaker">
+              <FontAwesomeIcon icon={faVolumeDown} />
+              <span className="grid-block-volume-lane-spacer">VOLUME</span>
+              <span className="grid-block-volume-lane-line " />
+            </div>
+            <div className="grid-block-transport grid-block-save">
+              SAVE
+            </div>
           </div>
-          {/* Start of grid system */}
-          {/* -------------------- */}
+          {/* Start of grid lanes */}
           {this.state.gridData[0].grid.map((elem, key) => (
             <div key={key} className="grid-line">
               <div
@@ -250,6 +243,19 @@ export default class Grid extends Component {
               })}
             </div>
           ))}
+          {/* Start Bottom Line */}
+          <div className="grid-bottom-line">
+            <div className="grid-bottom-plus">
+              <FontAwesomeIcon icon={faPlus} />
+            </div>
+            {/* Create an array with numbers 1 to 16 and perform a map to visualize them */}
+            {Array.from(Array(16).keys()).map((element, key) => (
+              <div key={key} className="grid-bottom-numbers">
+                {element + 1}
+              </div>
+            ))}
+          </div>
+          {/* End content */}
         </div>
       </>
     );
