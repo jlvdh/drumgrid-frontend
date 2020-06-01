@@ -52,11 +52,18 @@ transform: rotate(90deg);
 .grid-block-reset-grid {
     width: 104px;
     height: 100%;
+}
+
+.grid-block-reset-grid button {
+    width: 104px;
+    height: 100%;
     background-color: #6A706C;
+    color: white;
     font-weight: 600;
     font-size: 12px;
     text-align: center;
-
+    border: 0px;
+    outline: 0px;
 }
 
 .grid-block-tempo-lane {
@@ -68,6 +75,11 @@ transform: rotate(90deg);
     font-size: 12px;
     background-color: #6A706C; 
     padding-left: 12px;   
+}
+
+.grid-block-tempo-lane-arrow span:nth-child(2) {
+    position: relative;
+    left: -2px;
 }
 
 .grid-block-tempo-lane-arrow {
@@ -86,12 +98,13 @@ transform: rotate(90deg);
 
 }
 
-.grid-block-tempo-lane-line {
+.grid-block-tempo-lane-slider {
     margin-left: 18px;
     width: 160px;
-    height: 1px;
-    border: 1px solid #302E2E;
-    background-color: #302E2E;
+    font-size: 0px;
+    color: #6A706C;
+    position: relative;
+    top: 1px;
 }
 
 
@@ -115,12 +128,13 @@ transform: rotate(90deg);
     font-size: 12px;
 }
 
-.grid-block-volume-lane-line {
+.grid-block-volume-lane-slider {
     margin-left: 18px;
     width: 100px;
-    height: 1px;
-    border: 1px solid #302E2E;
-    background-color: #302E2E;
+    font-size: 0px;
+    color: #6A706C;
+    position: relative;
+    top: 1px;
 }
 
 .grid-block-save {

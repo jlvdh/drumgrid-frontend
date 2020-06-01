@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as Tone from "tone";
 import "./Grid.css";
+
+// InputRwnge Slidere
+import InputRange from "react-input-range";
+import "./InputSlider/InputSlider.css";
+
+// Import initial grid data
 import { gridInitData } from "./GridInitData/GridInitData";
 
 // Samples
@@ -27,11 +33,12 @@ export default class Grid extends Component {
     musicTransport: true,
     samplerLoaded: false,
     transport: "",
-    gridData: gridInitData,
+    gridData: JSON.parse(JSON.stringify(gridInitData)),
     pianoBarLeft: 364,
     pianoBarHeight: 238,
     pianoBarMaxWidth: 0,
     toneBPM: 120,
+    volume: -10,
   };
 
   componentDidMount() {
@@ -50,6 +57,25 @@ export default class Grid extends Component {
   componentWillUnmount() {
     clearInterval(this.intervalId);
     this.resizeObserver.current.unobserve();
+  }
+
+  handleChange = (e) => {
+    const {name, value} = e.target;
+    this.setState({ [name]: value });
+  }
+
+  clearGrid = () => {
+    Tone.Transport.cancel();
+    let newArr = this.state.gridData
+    newArr[0].grid = JSON.parse(JSON.stringify(gridInitData[0].grid));
+    this.setState({gridData: newArr})
+  }
+
+  changeMainParameters = () => {
+    if (this.state.samplerLoaded) {
+    Tone.Transport.bpm.value = this.state.toneBPM;
+    this.sampler.volume.value = this.state.volume;
+    }
   }
 
   refreshData = () => {
@@ -90,22 +116,19 @@ export default class Grid extends Component {
     // Changed latency here to fix Tonejs issue and to have better timing
     Tone.context.latencyHint = "fastest";
     this.setState({ showPlayIcon: !this.state.showPlayIcon, musicTransport: !this.state.musicTransport });
-    this.synthTestLoop();
+    this.transportControl();
   };
 
-  playSample = (e, sample) => {
-    // if (e) {
-    //   e.preventDefault();
-    // }
-    this.sampler.get(sample).start(0, 0, "128m", 0, 0.8);
-    // this.sampler.get(sample).start();
+  playSample = (sample) => {
+    // this.sampler.get(sample).start(0, 0, "128m", 0, 0.8);
+    this.sampler.get(sample).start();
   };
 
   scheduleTimelineBlock = (position, sound, gridSoundPosition, gridStepPosition) => {
     const gridArray = this.state.gridData[0].grid;
 
     const scheduleID = Tone.Transport.schedule((time) => {
-      this.playSample("", sound);
+      this.playSample(sound);
     }, position);
 
     gridArray[gridSoundPosition].steps[gridStepPosition].id = scheduleID;
@@ -141,7 +164,7 @@ export default class Grid extends Component {
     this.refreshData();
   };
 
-  synthTestLoop = () => {
+  transportControl = () => {
     console.log("loop");
 
     Tone.Transport.bpm.value = this.state.toneBPM;
@@ -162,6 +185,8 @@ export default class Grid extends Component {
   };
 
   render() {
+    this.changeMainParameters();
+
     return (
       <>
         <div className="grid-container noselect">
@@ -196,32 +221,49 @@ export default class Grid extends Component {
               <span className="grid-block-pattern-name">{this.state.transport}</span>
             </div>
             <div className="grid-block-transport grid-block-reset-grid">
-              RESET
-              <br />
-              GRID
+              <button onClick={this.clearGrid}>
+                RESET
+                <br />
+                GRID
+              </button>
             </div>
             <div className="grid-block-transport grid-block-tempo-lane grid-block-tempo-lane-arrow">
               <FontAwesomeIcon icon={faChevronRight} />
-              <FontAwesomeIcon icon={faChevronRight} />
+              <span>
+                <FontAwesomeIcon icon={faChevronRight} />
+              </span>
               <span className="grid-block-tempo-lane-spacer">TEMPO</span>
-              <span className="grid-block-tempo-lane-line " />
+              <span className="grid-block-tempo-lane-slider">
+                <InputRange
+                  minValue={60}
+                  maxValue={200}
+                  value={this.state.toneBPM}
+                  onChange={(value) => this.setState({ toneBPM: value })}
+                />
+              </span>
               <span className="grid-block-tempo-lane-bpm">{this.state.toneBPM} bpm</span>
             </div>
             <div className="grid-block-transport grid-block-volume-lane grid-block-volume-lane-speaker">
               <FontAwesomeIcon icon={faVolumeDown} />
               <span className="grid-block-volume-lane-spacer">VOLUME</span>
-              <span className="grid-block-volume-lane-line " />
+              <span className="grid-block-volume-lane-slider">
+                <InputRange
+                  minValue={-60}
+                  maxValue={0}
+                  step={1}
+                  value={this.state.volume}
+                  onChange={(value) => this.setState({ volume: value })}
+                />
+              </span>
             </div>
-            <div className="grid-block-transport grid-block-save">
-              SAVE
-            </div>
+            <div className="grid-block-transport grid-block-save">SAVE</div>
           </div>
           {/* Start of grid lanes */}
           {this.state.gridData[0].grid.map((elem, key) => (
             <div key={key} className="grid-line">
               <div
                 className="grid-block-instrument grid-block-instrument-name"
-                onClick={(e) => this.playSample(e, elem.sound)}
+                onClick={(e) => this.playSample(elem.sound)}
               >
                 {elem.name}
               </div>
