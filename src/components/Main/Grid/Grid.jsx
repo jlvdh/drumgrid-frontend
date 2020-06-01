@@ -35,11 +35,11 @@ export default class Grid extends Component {
   };
 
   componentDidMount() {
-    // Use the fastest timing available, otherwise we get timing issues
-    Tone.context.latencyHint = "fastest";
+    // Necessary for proper initialization of Tonejs
+    Tone.context.latencyHint = "interactive";
     this.loadSampler();
     this.refreshData();
-
+    
     // Calculate the width of the grid for the pianobar position
     const resizeObserver = new ResizeObserver((element) => {
       this.setState({ pianoBarMaxWidth: element[0].contentRect.width });
@@ -86,6 +86,9 @@ export default class Grid extends Component {
   playButton = (e) => {
     console.log("click");
     e.preventDefault();
+    
+    // Changed latency here to fix Tonejs issue and to have better timing
+    Tone.context.latencyHint = "fastest";
     this.setState({ showPlayIcon: !this.state.showPlayIcon, musicTransport: !this.state.musicTransport });
     this.synthTestLoop();
   };
@@ -94,8 +97,8 @@ export default class Grid extends Component {
     // if (e) {
     //   e.preventDefault();
     // }
-    // this.sampler.get(sample).start(0, 0, "128m", 0, 0.8);
-    this.sampler.get(sample).start();
+    this.sampler.get(sample).start(0, 0, "128m", 0, 0.8);
+    // this.sampler.get(sample).start();
   };
 
   scheduleTimelineBlock = (position, sound, gridSoundPosition, gridStepPosition) => {
