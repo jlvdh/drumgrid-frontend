@@ -16,7 +16,7 @@ export default function SaveButton(props) {
   const [patternName, setPatternName] = useState("");
   const [saveSuccessful, setSaveSuccessful] = useState(false);
   const [service] = useState(new UserService());
-  const [appUser] = useContext(AuthContext);
+  const context = useContext(AuthContext);
 
   const saveButton = (e) => {
     e.preventDefault();
@@ -32,7 +32,8 @@ export default function SaveButton(props) {
   const sendData = () => {
     if (patternName) {
       // console.log(patternName.replace(/^\s+/g, "").replace(/[^A-Za-z0-9_\-!\s]+/g, "_"));
-      // console.log(props.gridData);
+      console.log(patternName);
+      console.log(props.gridData);
       service.savePattern(patternName, props.gridData).then((result) => {
         console.log(result);
         if (result.message === "OK") {
@@ -44,8 +45,8 @@ export default function SaveButton(props) {
 
   return (
     <>
-      {console.log(appUser)}
-      {!appUser ? (
+    {console.log(context.appUser)}
+      {!context.appUser ? (
         <div className="grid-block-transport grid-block-save">
           <button onClick={(e) => saveButton(e)}>SAVE</button>
           {showFloatingBoxSave && (

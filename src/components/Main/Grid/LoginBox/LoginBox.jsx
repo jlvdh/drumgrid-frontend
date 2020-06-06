@@ -8,37 +8,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandPaper } from "@fortawesome/free-solid-svg-icons";
 
 export default function LoginBox() {
-
-  const [setAppUser] = useContext(AuthContext);
+  const context = useContext(AuthContext);
   const [firstScreen, setFirstScreen] = useState(true);
   const [signUp, setSignUp] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const service = new AuthService();
-
-//   const handleClick = (e) => {
-//     if (this.state.firstScreen) {
-//       this.setState({ firstScreen: false });
-//       return;
-//     }
-//   };
-
-//   const handleInput = (e) => {
-//     let { name, value } = e.target;
-//     this.setState({ [name]: value });
-//   };
 
   const handleLoginFormSubmit = (event) => {
     event.preventDefault();
-    service
-      .login(username, password)
-      .then((response) => {
-        setUsername("");
-        setPassword("");
-        setAppUser(response)
-      })
-      .catch((error) => console.log(error));
+    context.makeLogin(username, password);
+    setUsername("");
+    setPassword("");
   };
 
   const handleSignupFormSubmit = (event) => {
@@ -46,8 +27,8 @@ export default function LoginBox() {
     service
       .signup(username, password)
       .then((response) => {
-                setUsername("");
-                setPassword("");
+        setUsername("");
+        setPassword("");
         console.log(response);
       })
       .catch((error) => console.log(error));
@@ -56,7 +37,6 @@ export default function LoginBox() {
   const forgotPassword = () => {
     console.log("reset password");
   };
-
 
   return (
     <>
@@ -69,12 +49,7 @@ export default function LoginBox() {
             </div>
             <div className="loginbox-form-header">
               <div className="loginbox-form-text">PASSWORD</div>
-              <input
-                type="password"
-                name="password"
-                value={this.state.password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div className="loginbox-form-submit">
               <button type="submit">SIGNUP</button>

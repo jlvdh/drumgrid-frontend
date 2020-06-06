@@ -17,9 +17,9 @@ class UserService {
     return this.service.post("/api/profile/changePassword", { profile }).then((response) => response.data);
   };
 
-  savePattern = (patternName, patternData) => {
+  savePattern = (name, data) => {
     return this.service
-      .post("/api/profile/savepattern", { patternName, patternData })
+      .post("/api/profile/savepattern", { name, data })
       .then((response) => response.data)
       .catch((error) => error);
   };
