@@ -3,6 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as Tone from "tone";
 import "./Grid.css";
 
+// Grid Modules
+import SaveButton from "./SaveButton/SaveButton";
+
 // InputRange Sliders
 import InputRange from "react-input-range";
 import "./InputSlider/InputSlider.css";
@@ -186,6 +189,7 @@ export default class Grid extends Component {
     }
   };
 
+ 
   render() {
     // Keep on updating the tempo and volume values
     this.changeMainParameters();
@@ -259,7 +263,10 @@ export default class Grid extends Component {
                 />
               </span>
             </div>
-            <div className="grid-block-transport grid-block-save">SAVE</div>
+                <SaveButton gridData={this.state.gridData} />
+            {/* <div className="grid-block-transport grid-block-save">
+              <button onClick={(e) => this.saveButton(e)}>SAVE</button>
+            </div> */}
           </div>
           {/* End of transport line */}
           {/* Start of grid lanes */}

@@ -140,13 +140,20 @@ transform: rotate(90deg);
 .grid-block-save {
     display: flex;
     justify-content: center;
+    background-color: #592BAF; 
+    width: 96px;
+    padding-left: 12px;   
+}
+
+.grid-block-save button {
     width: 96px;
     height: 100%;
     font-weight: 600;
     font-size: 12px;
     background-color: #592BAF; 
     color: white;
-    padding-left: 12px;   
+    border: 0px;
+    outline: 0px;
 }
 
 .grid-icons-play button{
