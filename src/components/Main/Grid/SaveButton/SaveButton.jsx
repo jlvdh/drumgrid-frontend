@@ -8,8 +8,7 @@ import LoginBox from "../LoginBox/LoginBox";
 
 // Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faCheck, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 
 export default function SaveButton(props) {
   const [showFloatingBoxSave, setshowFloatingBoxSave] = useState(false);
@@ -17,6 +16,7 @@ export default function SaveButton(props) {
   const [saveSuccessful, setSaveSuccessful] = useState(false);
   const [service] = useState(new UserService());
   const context = useContext(AuthContext);
+  const [patternExists, setPatternExists] = useState(false);
 
   const saveButton = (e) => {
     e.preventDefault();
@@ -29,15 +29,47 @@ export default function SaveButton(props) {
     setSaveSuccessful(false);
   };
 
+  const checkDuplicate = () => {
+    let cleanPatternName = patternName
+      .replace(/^\s+/g, "")
+      .replace(/[^A-Za-z0-9_\-!\s]+/g, "_")
+      .toUpperCase();
+    let result = false;
+    if (cleanPatternName) {
+      service.getPatterns().then((patterns) => {
+        if (patterns) {
+          patterns.forEach((pattern) => {
+            const compareName = pattern.name.toUpperCase();
+            if (compareName === cleanPatternName) {
+              result = true;
+            }
+          });
+        }
+        if (result) {
+          setPatternExists(true);
+        } else {
+          sendData();
+        }
+      });
+    }
+  };
+
   const sendData = () => {
-    if (patternName) {
-      // console.log(patternName.replace(/^\s+/g, "").replace(/[^A-Za-z0-9_\-!\s]+/g, "_"));
-      console.log(patternName);
-      console.log(props.gridData);
-      service.savePattern(patternName, props.gridData).then((result) => {
+    let cleanPatternName = patternName.replace(/^\s+/g, "").replace(/[^A-Za-z0-9_\-!\s]+/g, "_");
+    if (cleanPatternName) {
+      // console.log(cleanPatternName);
+      // console.log(props.gridData);
+      const updateCurrentGridArray = props.gridData;
+      updateCurrentGridArray[0].options.mainvol = props.volume;
+      updateCurrentGridArray[0].options.tempo = props.tempo;
+      updateCurrentGridArray[0].pattern = cleanPatternName;
+
+      service.savePattern(cleanPatternName, updateCurrentGridArray).then((result) => {
         console.log(result);
         if (result.message === "OK") {
+          console.log("save");
           setSaveSuccessful(true);
+          setPatternExists(false);
         }
       });
     }
@@ -45,7 +77,7 @@ export default function SaveButton(props) {
 
   return (
     <>
-    {console.log(context.appUser)}
+      {/* {console.log(context.appUser)} */}
       {!context.appUser ? (
         <div className="grid-block-transport grid-block-save">
           <button onClick={(e) => saveButton(e)}>SAVE</button>
@@ -67,21 +99,39 @@ export default function SaveButton(props) {
               )}
               {!saveSuccessful ? (
                 <div className="floating-save-box-container-fields">
-                  <p>
-                    Enter a name for the pattern you
-                    <br />
-                    want to save:
-                  </p>
-                  <p>
-                    <input
-                      type="text"
-                      value={patternName}
-                      onChange={(e) => setPatternName(e.target.value)}
-                      name="patternname"
-                      placeholder="Please provide a name"
-                    />
-                  </p>
-                  <button onClick={sendData}>STORE</button>
+                  {patternExists ? (
+                    <div className="floating-save-box-container-fields-exists">
+                      <p className="floating-save-box-container-fields-error">
+                        <FontAwesomeIcon icon={faExclamationTriangle} />
+                      </p>
+                      <p>Pattern already exists!</p>
+                      <p>Overwrite?</p>
+                      <span className="floating-save-box-container-fields-btnyes">
+                        <button onClick={sendData}>YES</button>
+                      </span>
+                      <span className="floating-save-box-container-fields-btnno">
+                        <button onClick={() => setPatternExists(false)}>NO</button>
+                      </span>
+                    </div>
+                  ) : (
+                    <div>
+                      <p>
+                        Enter a name for the pattern you
+                        <br />
+                        want to save:
+                      </p>
+                      <p>
+                        <input
+                          type="text"
+                          value={patternName}
+                          onChange={(e) => setPatternName(e.target.value)}
+                          name="patternname"
+                          placeholder="Please provide a name"
+                        />
+                      </p>
+                      <button onClick={checkDuplicate}>STORE</button>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="floating-save-box-container-saved">

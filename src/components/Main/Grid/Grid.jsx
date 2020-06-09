@@ -20,12 +20,7 @@ import E1 from "./Samples/closedhh.mp3";
 import F1 from "./Samples/openhh.mp3";
 
 // Font Awesome Icons
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import { faPause } from "@fortawesome/free-solid-svg-icons";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { faVolumeDown } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faPause, faClock, faPlus, faChevronRight, faVolumeDown } from "@fortawesome/free-solid-svg-icons";
 
 export default class Grid extends Component {
   state = {
@@ -47,7 +42,6 @@ export default class Grid extends Component {
     // Necessary for proper initialization of Tonejs
     Tone.context.latencyHint = "interactive";
     this.loadSampler();
-    this.refreshData();
 
     // Calculate the width of the grid for the pianobar position
     const resizeObserver = new ResizeObserver((element) => {
@@ -61,11 +55,6 @@ export default class Grid extends Component {
     this.resizeObserver.current.unobserve();
   }
 
-  // handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   this.setState({ [name]: value });
-  // };
-
   clearGrid = () => {
     Tone.Transport.cancel();
     let newArr = this.state.gridData;
@@ -76,7 +65,7 @@ export default class Grid extends Component {
   changeMainParameters = () => {
     if (this.state.samplerLoaded) {
       Tone.Transport.bpm.value = this.state.toneBPM;
-      this.sampler.volume.value = this.state.volume;
+      this.sampler.volume.value = this.state.volume;      
     }
   };
 
@@ -91,7 +80,6 @@ export default class Grid extends Component {
   };
 
   loadSampler = () => {
-    // Prepare the sampler object to play the sounds
     this.sampler = new Tone.Players(
       {
         C1,
@@ -105,7 +93,8 @@ export default class Grid extends Component {
         onload: () => {
           Tone.start().then(
             console.log("Audio is ready."),
-            this.setState({ samplerLoaded: true, playButtonDisabled: false })
+            this.setState({ samplerLoaded: true, playButtonDisabled: false }),
+            this.refreshData(),
           );
         },
       }
@@ -113,7 +102,6 @@ export default class Grid extends Component {
   };
 
   playButton = (e) => {
-    // Playbutton to change the image and to update state if we are playing or not
     e.preventDefault();
 
     // Changed latency here to fix Tonejs sound trigger issue and to have better timing
@@ -123,12 +111,11 @@ export default class Grid extends Component {
   };
 
   playSample = (sample) => {
-    // Invoke the sampler and play the provided sample
     this.sampler.get(sample).start();
   };
 
   scheduleTimelineBlock = (position, sound, gridSoundPosition, gridStepPosition) => {
-    // If grid block is yellow, then use Tone.Transport to schedule the sound at the correct time
+
 
     const gridArray = this.state.gridData[0].grid;
     const scheduleID = Tone.Transport.schedule((time) => {
@@ -170,11 +157,6 @@ export default class Grid extends Component {
   };
 
   transportControl = () => {
-    // Perform play/stop and refresh the screen
-
-    // Tone.Transport.bpm.value = this.state.toneBPM;
-
-    // Check for start/stop
     if (this.state.musicTransport) {
       Tone.Transport.position = "0";
       Tone.Transport.setLoopPoints(0, "1m");
@@ -263,10 +245,7 @@ export default class Grid extends Component {
                 />
               </span>
             </div>
-                <SaveButton gridData={this.state.gridData} />
-            {/* <div className="grid-block-transport grid-block-save">
-              <button onClick={(e) => this.saveButton(e)}>SAVE</button>
-            </div> */}
+                <SaveButton gridData={this.state.gridData} tempo={this.state.toneBPM} volume={this.state.volume} />
           </div>
           {/* End of transport line */}
           {/* Start of grid lanes */}
@@ -302,8 +281,9 @@ export default class Grid extends Component {
           {/* End of grid lanes */}
           {/* Start Bottom Line */}
           <div className="grid-bottom-line">
+            {/* Add plus button, disabled for now */}
             <div className="grid-bottom-plus">
-              <FontAwesomeIcon icon={faPlus} />
+              {/* <FontAwesomeIcon icon={faPlus} /> */}
             </div>
             {/* Create an array with numbers 1 to 16 and perform a map to visualize them */}
             {Array.from(Array(16).keys()).map((element, key) => (
