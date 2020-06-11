@@ -17,6 +17,12 @@ export const AuthContextProvider = (props) => {
       console.log("inside context", result);
   };
 
+  const checkLogin = async () => {
+    await service.isAuthenticated().then((response) => {
+      if (response.username) {setAppUser(response)}
+    })
+  }
+
   const logout = async () => {
     let result = await service.logout();
     setAppUser(null);
@@ -24,5 +30,5 @@ export const AuthContextProvider = (props) => {
   };
 
   // return <AuthContext.Provider value={[appUser, setAppUser]}>{props.children}</AuthContext.Provider>;
-  return <AuthContext.Provider value={{appUser, makeLogin, logout}}>{props.children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ appUser, makeLogin, checkLogin, logout }}>{props.children}</AuthContext.Provider>;
 };

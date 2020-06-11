@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./MyPatterns.css";
 import UserService from "../../../../services/user-service";
 import { AuthContext } from "../../../../contexts/auth-context";
@@ -10,17 +10,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileAudio } from "@fortawesome/free-solid-svg-icons";
 
 export default function MyPatterns() {
-  const [service] = useState(new UserService());
   const context = useContext(AuthContext);
   const gridContext = useContext(GridContext);
+  const [service] = useState(new UserService());
   const [showPatterns, setShowPatterns] = useState(false);
   const [currentPatterns, setCurrentPatterns] = useState();
+  const userUpdated = context.appUser;
+
+  useEffect(() => {
+    if (context.appUser) {
+      getPatternsFromApi();
+    }
+  }, [userUpdated]);
 
   const showPatternFrame = () => {
     console.log("show pattern frame");
     setShowPatterns(!showPatterns);
+  };
+
+  const getPatternsFromApi = () => {
     service.getPatterns().then((result) => {
-      setCurrentPatterns(result);
+      if (context.appUser) {
+        setCurrentPatterns(result);
+      }
     });
   };
 
@@ -40,13 +52,19 @@ export default function MyPatterns() {
                 <LoginBox />
               ) : (
                 <span>
-                  {currentPatterns.map((elem, key) => {
-                    return <div key={key} className="">
-                      <FontAwesomeIcon icon={faFileAudio} />
-                      <span>{elem.name}</span>
-                      <button onClick={() => loadPattern(elem.id)}>LOAD</button>
-                    </div>;
-                  })}
+                  {currentPatterns ? (
+                    currentPatterns.map((elem, key) => {
+                      return (
+                        <div key={key} className="">
+                          <FontAwesomeIcon icon={faFileAudio} />
+                          <span>{elem.name}</span>
+                          <button onClick={() => loadPattern(elem.id)}>LOAD</button>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div>Loading patterns..</div>
+                  )}
                   <button onClick={() => showPatternFrame()}>close</button>
                 </span>
               )}
