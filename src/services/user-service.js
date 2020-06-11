@@ -24,15 +24,22 @@ class UserService {
       .catch((error) => error);
   };
 
+  updatePattern = (id, name, data) => {
+    return this.service
+      .put(`/api/profile/updatepattern/${id}`, { name, data })
+      .then((response) => response.data)
+      .catch((error) => error);
+  };
+
   getPatterns = () => {
     return this.service
-    .get("/api/profile/getpatterns")
-    .then((response) => response.data)
-    .catch((error) => error);
-  }
+      .get("/api/profile/getpatterns")
+      .then((response) => response.data)
+      .catch((error) => error);
+  };
 
-  loadPattern = (patternName) => {
-    return this.service.get("/api/profile/loadpattern", { patternName }).then((response) => response.data);
+  loadPattern = (patternId) => {
+    return this.service.get(`/api/profile/loadpattern/${patternId}`).then((response) => response.data);
   };
 
   deletePattern = (patternName) => {

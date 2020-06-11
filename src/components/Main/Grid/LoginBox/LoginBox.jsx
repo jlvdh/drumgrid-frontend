@@ -29,7 +29,6 @@ export default function LoginBox() {
       .then((response) => {
         setUsername("");
         setPassword("");
-        console.log(response);
       })
       .catch((error) => console.log(error));
   };

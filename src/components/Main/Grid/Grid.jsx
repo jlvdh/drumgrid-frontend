@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { gridInitData } from "./GridInitData/GridInitData";
+import { GridContext } from "../../../contexts/grid-context";
 import * as Tone from "tone";
 import "./Grid.css";
 
@@ -9,9 +11,6 @@ import SaveButton from "./SaveButton/SaveButton";
 // InputRange Sliders
 import InputRange from "react-input-range";
 import "./InputSlider/InputSlider.css";
-
-// Import default grid data
-import { gridInitData } from "./GridInitData/GridInitData";
 
 // Samples
 import C1 from "./Samples/kick.mp3";
@@ -23,6 +22,8 @@ import F1 from "./Samples/openhh.mp3";
 import { faPlay, faPause, faClock, faPlus, faChevronRight, faVolumeDown } from "@fortawesome/free-solid-svg-icons";
 
 export default class Grid extends Component {
+  static contextType = GridContext;
+
   state = {
     playButtonDisabled: true,
     showPlayIcon: true,
@@ -33,7 +34,7 @@ export default class Grid extends Component {
     gridData: JSON.parse(JSON.stringify(gridInitData)),
     pianoBarLeft: 364,
     pianoBarHeight: 238,
-    pianoBarMaxWidth: 0,
+    pianoBarMaxWidth: 500,
     toneBPM: 120,
     volume: -10,
   };
@@ -50,10 +51,37 @@ export default class Grid extends Component {
     resizeObserver.observe(document.getElementById("gridContainer"));
   }
 
+  componentDidUpdate() {
+    this.changeMainParameters();
+  }
+
   componentWillUnmount() {
     clearInterval(this.intervalId);
     this.resizeObserver.current.unobserve();
   }
+
+  loadingPattern = () => {
+    console.log(`loading pattern`);
+    Tone.context.latencyHint = "interactive";
+
+    this.clearGrid();
+    const loadGrid = JSON.parse(JSON.stringify(this.context.gridData));
+    const currentGrid = this.state.gridData;
+    const loadedVol = loadGrid[0].options.mainvol;
+    const loadedTempo = loadGrid[0].options.tempo;
+    currentGrid[0] = loadGrid[0];
+    this.setState({ toneBPM: loadedTempo, volume: loadedVol, gridData: currentGrid });
+    currentGrid[0].grid.forEach((elem, gridIndex) => {
+      elem.steps.forEach((step, stepIndex) => {
+        if (step.active) {
+          this.scheduleTimelineBlock(step.time, elem.sound, gridIndex, stepIndex);
+        }
+      });
+    });
+    console.log("done");
+    Tone.context.latencyHint = "fastest";
+    this.context.loadingFinished();
+  };
 
   clearGrid = () => {
     Tone.Transport.cancel();
@@ -65,7 +93,10 @@ export default class Grid extends Component {
   changeMainParameters = () => {
     if (this.state.samplerLoaded) {
       Tone.Transport.bpm.value = this.state.toneBPM;
-      this.sampler.volume.value = this.state.volume;      
+      this.sampler.volume.value = this.state.volume;
+    }
+    if (this.context.provideGridLoading) {
+      this.loadingPattern();
     }
   };
 
@@ -94,7 +125,7 @@ export default class Grid extends Component {
           Tone.start().then(
             console.log("Audio is ready."),
             this.setState({ samplerLoaded: true, playButtonDisabled: false }),
-            this.refreshData(),
+            this.refreshData()
           );
         },
       }
@@ -103,9 +134,9 @@ export default class Grid extends Component {
 
   playButton = (e) => {
     e.preventDefault();
-
     // Changed latency here to fix Tonejs sound trigger issue and to have better timing
     Tone.context.latencyHint = "fastest";
+
     this.setState({ showPlayIcon: !this.state.showPlayIcon, musicTransport: !this.state.musicTransport });
     this.transportControl();
   };
@@ -115,8 +146,6 @@ export default class Grid extends Component {
   };
 
   scheduleTimelineBlock = (position, sound, gridSoundPosition, gridStepPosition) => {
-
-
     const gridArray = this.state.gridData[0].grid;
     const scheduleID = Tone.Transport.schedule((time) => {
       this.playSample(sound);
@@ -126,7 +155,6 @@ export default class Grid extends Component {
   };
 
   clearTimelineBlock = (scheduleId, gridSoundPosition, gridStepPosition) => {
-    // If grid block is grey, then obtain ID of the scheduled object and clear it from the timeline
     const gridArray = this.state.gridData[0].grid;
     let gridId = gridArray[gridSoundPosition].steps[gridStepPosition].id;
 
@@ -171,11 +199,7 @@ export default class Grid extends Component {
     }
   };
 
- 
   render() {
-    // Keep on updating the tempo and volume values
-    this.changeMainParameters();
-
     return (
       <>
         <div className="grid-container noselect">
@@ -245,7 +269,7 @@ export default class Grid extends Component {
                 />
               </span>
             </div>
-                <SaveButton gridData={this.state.gridData} tempo={this.state.toneBPM} volume={this.state.volume} />
+            <SaveButton gridData={this.state.gridData} tempo={this.state.toneBPM} volume={this.state.volume} />
           </div>
           {/* End of transport line */}
           {/* Start of grid lanes */}
@@ -282,9 +306,7 @@ export default class Grid extends Component {
           {/* Start Bottom Line */}
           <div className="grid-bottom-line">
             {/* Add plus button, disabled for now */}
-            <div className="grid-bottom-plus">
-              {/* <FontAwesomeIcon icon={faPlus} /> */}
-            </div>
+            <div className="grid-bottom-plus">{/* <FontAwesomeIcon icon={faPlus} /> */}</div>
             {/* Create an array with numbers 1 to 16 and perform a map to visualize them */}
             {Array.from(Array(16).keys()).map((element, key) => (
               <div key={key} className="grid-bottom-numbers">

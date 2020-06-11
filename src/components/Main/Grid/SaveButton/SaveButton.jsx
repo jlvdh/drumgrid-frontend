@@ -35,6 +35,7 @@ export default function SaveButton(props) {
       .replace(/[^A-Za-z0-9_\-!\s]+/g, "_")
       .toUpperCase();
     let result = false;
+    let patternId;
     if (cleanPatternName) {
       service.getPatterns().then((patterns) => {
         if (patterns) {
@@ -42,11 +43,12 @@ export default function SaveButton(props) {
             const compareName = pattern.name.toUpperCase();
             if (compareName === cleanPatternName) {
               result = true;
+              patternId = pattern.id
             }
           });
         }
         if (result) {
-          setPatternExists(true);
+          setPatternExists(patternId);
         } else {
           sendData();
         }
@@ -57,21 +59,28 @@ export default function SaveButton(props) {
   const sendData = () => {
     let cleanPatternName = patternName.replace(/^\s+/g, "").replace(/[^A-Za-z0-9_\-!\s]+/g, "_");
     if (cleanPatternName) {
-      // console.log(cleanPatternName);
-      // console.log(props.gridData);
       const updateCurrentGridArray = props.gridData;
       updateCurrentGridArray[0].options.mainvol = props.volume;
       updateCurrentGridArray[0].options.tempo = props.tempo;
       updateCurrentGridArray[0].pattern = cleanPatternName;
 
-      service.savePattern(cleanPatternName, updateCurrentGridArray).then((result) => {
-        console.log(result);
-        if (result.message === "OK") {
-          console.log("save");
-          setSaveSuccessful(true);
-          setPatternExists(false);
-        }
-      });
+      if (patternExists) {
+        service.updatePattern(patternExists, cleanPatternName, updateCurrentGridArray).then((result) => {
+          if (result.message === "OK") {
+            console.log("update");
+            setSaveSuccessful(true);
+            setPatternExists(false);
+          }
+        });
+      } else {
+        service.savePattern(cleanPatternName, updateCurrentGridArray).then((result) => {
+          if (result.message === "OK") {
+            console.log("save");
+            setSaveSuccessful(true);
+            setPatternExists(false);
+          }
+        });
+      }
     }
   };
 

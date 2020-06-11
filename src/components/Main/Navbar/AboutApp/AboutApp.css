@@ -1,8 +1,48 @@
-.navbar-aboutapp-text a:hover {
-    color: #408eaf;
+.navbar-aboutapp-text button {
+  border: 0px;
+  outline: 0px;
+  color: inherit;
+  background-color: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  text-transform: inherit;
+  font-family: inherit;
 }
 
-.navbar-aboutapp-text a:active {
-    color: #6ba4bc;
+.navbar-aboutapp-text button:hover {
+  color: #408eaf;
 }
 
+.navbar-aboutapp-text button:active {
+  color: #6ba4bc;
+}
+
+.navbar-aboutapp-showcontentbox {
+    position: fixed;
+    flex-flow: column nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0px;
+    width: 100%;
+    height: 80%;
+    top: 150px;
+    z-index: 10;
+    background-color: rgba(0,0,0,0.8);   
+}
+
+.navbar-aboutapp-showcontentbox-content {
+    width: 60%;
+    height: 50%;
+    margin-bottom: 8%;
+}
+
+.navbar-aboutapp-showcontentbox-content-inside {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    background-color: #022e43;
+}

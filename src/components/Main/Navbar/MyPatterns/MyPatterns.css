@@ -1,8 +1,38 @@
-.navbar-mypatterns-text a:hover {
-    color: #9B70EC;
+.navbar-mypatterns-text button {
+  border: 0px;
+  outline: 0px;
+  color: inherit;
+  background-color: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  text-transform: inherit;
+  font-family: inherit;
 }
 
-.navbar-mypatterns-text a:active {
-    color: #b998f5;
+.navbar-mypatterns-text button:hover {
+  color: #9B70EC;
 }
 
+.navbar-mypatterns-text button:active {
+  color: #b998f5;
+}
+
+.navbar-mypatterns-showcontentbox {
+display: inline-block;
+position: relative;
+}
+
+.navbar-mypatterns-showcontentbox-content-inside {
+    /* Works due to the earlier position: relative declaration */
+    position: absolute;
+    right: 5px;
+    width: 400px;
+    height: 122px;
+    top: 10px;
+    z-index: 4;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-color: #302E2E;
+}
