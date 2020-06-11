@@ -26,6 +26,7 @@ export default function MyPatterns() {
   const showPatternFrame = () => {
     console.log("show pattern frame");
     setShowPatterns(!showPatterns);
+    getPatternsFromApi();
   };
 
   const getPatternsFromApi = () => {
@@ -40,6 +41,11 @@ export default function MyPatterns() {
     console.log(`Load pattern with id: ${patternId}`);
     gridContext.updateGrid(patternId);
   };
+
+  const delPattern = (patternId) => {
+    console.log('deleting pattern')
+    service.deletePattern(patternId).then(() => getPatternsFromApi())
+  }
 
   return (
     <>
@@ -59,6 +65,7 @@ export default function MyPatterns() {
                           <FontAwesomeIcon icon={faFileAudio} />
                           <span>{elem.name}</span>
                           <button onClick={() => loadPattern(elem.id)}>LOAD</button>
+                          <button onClick={() => delPattern(elem.id)}>DELETE</button>
                         </div>
                       );
                     })

@@ -42,8 +42,8 @@ class UserService {
     return this.service.get(`/api/profile/loadpattern/${patternId}`).then((response) => response.data);
   };
 
-  deletePattern = (patternName) => {
-    return this.service.post("/api/profile/delpattern", { patternName }).then((response) => response.data);
+  deletePattern = (patternId) => {
+    return this.service.post(`/api/profile/delpattern/${patternId}`).then((response) => response.data);
   };
 }
 
