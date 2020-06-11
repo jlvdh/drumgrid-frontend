@@ -28,7 +28,7 @@ export default class Grid extends Component {
     playButtonDisabled: true,
     showPlayIcon: true,
     yellowGridBlock: false,
-    musicTransport: true,
+    musicTransport: false,
     samplerLoaded: false,
     transport: "",
     gridData: JSON.parse(JSON.stringify(gridInitData)),
@@ -137,7 +137,9 @@ export default class Grid extends Component {
     // Changed latency here to fix Tonejs sound trigger issue and to have better timing
     Tone.context.latencyHint = "fastest";
 
-    this.setState({ showPlayIcon: !this.state.showPlayIcon, musicTransport: !this.state.musicTransport }, () => {this.transportControl();});
+    this.setState({ showPlayIcon: !this.state.showPlayIcon, musicTransport: !this.state.musicTransport }, () => {
+      this.transportControl();
+    });
   };
 
   playSample = (sample) => {
