@@ -7,13 +7,14 @@ import LoginBox from "../../Grid/LoginBox/LoginBox";
 
 // Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileAudio } from "@fortawesome/free-solid-svg-icons";
+import { faFileAudio, faExclamationTriangle, faUpload, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function MyPatterns() {
   const context = useContext(AuthContext);
   const gridContext = useContext(GridContext);
   const [service] = useState(new UserService());
   const [showPatterns, setShowPatterns] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [currentPatterns, setCurrentPatterns] = useState();
   const userUpdated = context.appUser;
 
@@ -42,10 +43,17 @@ export default function MyPatterns() {
     gridContext.updateGrid(patternId);
   };
 
+  const delPatternConfirmation = (patternId) => {
+    setConfirmDelete(patternId);
+  };
+
   const delPattern = (patternId) => {
-    console.log('deleting pattern')
-    service.deletePattern(patternId).then(() => getPatternsFromApi())
-  }
+    console.log("deleting pattern");
+    service.deletePattern(patternId).then(() => {
+      getPatternsFromApi();
+      setConfirmDelete(false);
+    });
+  };
 
   return (
     <>
@@ -59,20 +67,47 @@ export default function MyPatterns() {
               ) : (
                 <span>
                   {currentPatterns ? (
-                    currentPatterns.map((elem, key) => {
-                      return (
-                        <div key={key} className="">
-                          <FontAwesomeIcon icon={faFileAudio} />
-                          <span>{elem.name}</span>
-                          <button onClick={() => loadPattern(elem.id)}>LOAD</button>
-                          <button onClick={() => delPattern(elem.id)}>DELETE</button>
-                        </div>
-                      );
-                    })
+                    confirmDelete ? (
+                      <div className="navbar-mypatterns-showcontentbox-content-inside-overwrite">
+                        <p className="navbar-mypatterns-showcontentbox-content-inside-overwrite-icon">
+                          <FontAwesomeIcon icon={faExclamationTriangle} />
+                        </p>
+                        <p className="navbar-mypatterns-showcontentbox-content-inside-overwrite-text">
+                          Are you sure you want to delete your pattern?
+                        </p>
+                        <span className="navbar-mypatterns-showcontentbox-content-inside-overwrite-btnyes">
+                          <button onClick={() => delPattern(confirmDelete)}>YES</button>
+                        </span>
+                        <span className="navbar-mypatterns-showcontentbox-content-inside-overwrite-btnno">
+                          <button onClick={() => setConfirmDelete(false)}>NO</button>
+                        </span>
+                      </div>
+                    ) : (
+                      currentPatterns.map((elem, key) => {
+                        return (
+                          <div key={key} className="navbar-mypatterns-showcontentbox-content-inside-patterns">
+                            <span>
+                              <FontAwesomeIcon icon={faFileAudio} />
+                            </span>
+                            <p>{elem.name.length > 32 ? `${elem.name.slice(0, 32)}...` : elem.name}</p>
+                            <button onClick={() => loadPattern(elem.id)}>
+                              <FontAwesomeIcon icon={faUpload} />
+                            </button>
+                            <button onClick={() => delPatternConfirmation(elem.id)}>
+                              <FontAwesomeIcon icon={faTrashAlt} />
+                            </button>
+                          </div>
+                        );
+                      })
+                    )
                   ) : (
                     <div>Loading patterns..</div>
                   )}
-                  <button onClick={() => showPatternFrame()}>close</button>
+                  {!confirmDelete && (
+                    <span className="navbar-mypatterns-showcontentbox-content-inside-btnclose">
+                      <button onClick={() => showPatternFrame()}>close</button>
+                    </span>
+                  )}
                 </span>
               )}
             </div>

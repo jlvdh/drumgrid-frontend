@@ -18,31 +18,70 @@
 }
 
 .navbar-aboutapp-showcontentbox {
-    position: fixed;
-    flex-flow: column nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    left: 0px;
-    width: 100%;
-    height: 80%;
-    top: 150px;
-    z-index: 10;
-    background-color: rgba(0,0,0,0.8);   
+  display: inline-block;
+  position: relative;
 }
 
 .navbar-aboutapp-showcontentbox-content {
-    width: 60%;
-    height: 50%;
-    margin-bottom: 8%;
+  position: absolute;
+  right: 5px;
+  width: 400px;
+  max-height: 302px;
+  height: 302px;
+  top: 10px;
+  z-index: 3;
+  background-color: rgba(2, 46, 67, 0.85);
+  backdrop-filter: blur(2px);
+  text-transform: none;
+  font-size: 12px;
+  padding: 5px 10px;
+  outline: 1px dotted #044c6d;
+  outline-offset: 1px;
 }
 
-.navbar-aboutapp-showcontentbox-content-inside {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: flex-start;
-    justify-content: flex-start;
-    width: 100%;
-    height: 100%;
-    background-color: #022e43;
+.navbar-aboutapp-showcontentbox-content button {
+  position: absolute;
+  right: 10px;
+  margin-bottom: 10px;
+}
+
+.navbar-aboutapp-showcontentbox-content-textcenter {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 5px;
+}
+
+.navbar-aboutapp-showcontentbox-content-logo {
+  width: 20px;
+  padding-right: 5px;
+}
+
+.navbar-aboutapp-showcontentbox-content-ih {
+  width: 35px;
+}
+
+.navbar-aboutapp-showcontentbox-content-textborder {
+  border-bottom: 1px dotted #408eaf;
+  display: inline-block;
+}
+
+.navbar-aboutapp-showcontentbox-content-scrollbar {
+  overflow-y: auto;
+  scrollbar-color: #003e59 #011b29;
+  scrollbar-width: thin;
+}
+
+.navbar-aboutapp-showcontentbox-content::-webkit-scrollbar {
+  width: 10px;
+  background-color: #011b29;
+}
+
+.navbar-aboutapp-showcontentbox-content::-webkit-scrollbar-thumb {
+  background-color: #003e59;
+}
+
+.navbar-aboutapp-showcontentbox-content::-webkit-scrollbar-track {
+  background-color: #011b29;
 }
