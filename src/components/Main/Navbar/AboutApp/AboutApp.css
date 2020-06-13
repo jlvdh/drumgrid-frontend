@@ -26,11 +26,11 @@
   position: absolute;
   right: 5px;
   width: 400px;
-  max-height: 302px;
-  height: 302px;
+  max-height: 300px;
+  height: 300px;
   top: 10px;
   z-index: 3;
-  background-color: rgba(2, 46, 67, 0.85);
+  background-color: rgba(0, 16, 23, 0.85);
   backdrop-filter: blur(2px);
   text-transform: none;
   font-size: 12px;

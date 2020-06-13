@@ -21,7 +21,7 @@ export default function AboutApp() {
             </p>
             <br />
             <p>
-              This app is a graduation project from the great bootcamp given by IronHack!
+              This app is a graduation project for the web development bootcamp from IronHack.
               {/* <img
                   className="navbar-aboutapp-showcontentbox-content-ih"
                   src="/images/40541063-a07a0a8a-601a-11e8-91b5-2f13e4e6b441.png"
@@ -32,11 +32,9 @@ export default function AboutApp() {
             <p className="navbar-aboutapp-showcontentbox-content-textborder">MANUAL</p>
             <br />
             <p>
-              Click on the sound names to hear an example of the sound you want to program. In order to program the
-              sound on the grid, just go to the lane of the sound and click on the grid square location where you would
-              like to program the selected sound.
+              Click on the sound names to hear an example of the sound you want to program. Then just click on a square
+              within the lane of the sound you want, and it will program the sound to play at that spot.
             </p>
-            <p>This will automatically program the sound and will play at that location. </p>
             <br />
             <p>
               If you want to save your pattern, click on the SAVE button. You will need to login (or create an account)
@@ -53,13 +51,17 @@ export default function AboutApp() {
             <br />
             <p className="navbar-aboutapp-showcontentbox-content-textborder">THANKS</p>
             <br />
-            <p>I would like to thank everyone who was involved into making this little app. This includes the fantastic teachers of the
-              bootcamp (Thanks Jorg, Lloyd & Rana!), my classmates of the course who are all amazing people, my friends who helped me test this app, 
-              and my wife who had to endure all my crazyness and code-speak these past months 🙈 Te quiero ❤️
+            <p>
+              I would like to thank everyone who was involved in making this little app. This includes the fantastic
+              teachers of the bootcamp (Thanks Jorg, Lloyd & Rana!), my classmates who are all amazing people, my
+              friends who helped me break this app enough times for it to work, and my wife who had to endure me and
+              code-speak during this period 🙈 Te quiero ❤️
             </p>
             <br />
 
             <button onClick={() => showAboutFrame()}>CLOSE WINDOW</button>
+            <br />
+            <br />
           </div>
         </div>
       )}
