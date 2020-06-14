@@ -142,3 +142,37 @@
   bottom: 30px;
   border-radius: 3px;
 }
+
+.floating-save-box-container-patternerror {
+  color: white;
+  font-weight: 600;
+}
+
+.floating-save-box-container-patternerror-icon {
+    font-size: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.floating-save-box-container-patternerror p:first-of-type {
+    width: 70%;
+  margin: 0;
+  padding: 10px 0 0 8px;
+  font-weight: 400;
+  font-size: 12px;
+  text-align: left;
+}
+
+.floating-save-box-container-patternerror p {
+    width: 70%;
+  margin: 0;
+  padding: 2px 0 0 8px;
+  font-weight: 400;
+  font-size: 12px;
+    text-align: left;
+}
+
+.floating-save-box-container-patternerror span{
+  margin: 0;
+  padding: 0 0 0 10px;
+}

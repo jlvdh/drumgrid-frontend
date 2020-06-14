@@ -19,7 +19,8 @@ import E1 from "./Samples/closedhh.mp3";
 import F1 from "./Samples/openhh.mp3";
 
 // Font Awesome Icons
-import { faPlay, faPause, faClock, faPlus, faChevronRight, faVolumeDown } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faPause, faClock, faChevronRight, faVolumeDown } from "@fortawesome/free-solid-svg-icons";
+// import { faPlus} from "@fortawesome/free-solid-svg-icons";
 
 export default class Grid extends Component {
   static contextType = GridContext;
@@ -220,19 +221,26 @@ export default class Grid extends Component {
                 </button>
               )}
               {!this.state.playButtonDisabled && this.state.showPlayIcon ? (
-                <button>
-                  <FontAwesomeIcon id="grid-icons-play-button" icon={faPlay} onClick={this.playButton} />
+                <button onClick={this.playButton}>
+                  <FontAwesomeIcon id="grid-icons-play-button" icon={faPlay} />
                 </button>
               ) : (
-                <button>
-                  <FontAwesomeIcon id="grid-icons-play-button" icon={faPause} onClick={this.playButton} />
+                <button onClick={this.playButton}>
+                  <FontAwesomeIcon id="grid-icons-play-button" icon={faPause} />
                 </button>
               )}
             </div>
             <div className="grid-block-transport grid-block-pattern ">
               PATTERN
               <span className="grid-block-pattern-line" />
-              <span className="grid-block-pattern-name">{this.state.transport}</span>
+              <div className="grid-block-pattern-nameblock">
+                <span className="grid-block-pattern-name">
+                  {this.state.gridData[0].pattern.length > 16
+                    ? `${this.state.gridData[0].pattern.slice(0, 16)}...`
+                    : this.state.gridData[0].pattern}
+                </span>
+                <span className="grid-block-pattern-time">{this.state.transport}</span>
+              </div>
             </div>
             <div className="grid-block-transport grid-block-reset-grid">
               <button onClick={this.clearGrid}>

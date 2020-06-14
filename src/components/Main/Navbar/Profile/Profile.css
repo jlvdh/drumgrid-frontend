@@ -22,6 +22,15 @@
   position: relative;
 }
 
+.navbar-profile-showcontentbox button {
+  width: 70px;
+  height: 30px;
+  font-weight: 600;
+  background-color: #302e2e;
+  color: white;
+  text-transform: uppercase;
+}
+
 .navbar-profile-showcontentbox-content-inside {
   /* Works due to the earlier position: relative declaration */
   position: absolute;
@@ -34,5 +43,109 @@
   flex-flow: column nowrap;
   align-items: flex-start;
   justify-content: flex-start;
-  background-color: blue;
+  background-color: #302e2e;
+  text-transform: none;
+}
+
+.navbar-profile-showcontentbox-content-inside-pads {
+  padding: 15px 0 0 20px;
+}
+
+.navbar-profile-showcontentbox-content-inside-pads button {
+  position: absolute;
+  background-color: transparent;
+  right: 30px;
+  bottom: 5px;
+}
+
+.navbar-profile-showcontentbox-content-inside-pads button:nth-child(1) {
+  position: absolute;
+  background-color: #474b49;
+  right: 10px;
+  bottom: 10px;
+}
+
+.navbar-profile-showcontentbox-content-inside-pads button:hover {
+  background-color: #e4a400;
+  color: white;
+}
+
+.navbar-profile-showcontentbox-content-inside-pads button:active {
+  border: 5px solid #e4a400;
+  background-color: #302e2e;
+  color: white;
+}
+
+.navbar-profile-showcontentbox-content-inside-pads button:nth-child(4):hover {
+  color: #ffd059;
+  background-color: #302e2e;
+  border: 0px;
+}
+
+.navbar-profile-showcontentbox-content-inside-pads button:nth-child(4):active {
+  border: 0px;
+  background-color: #302e2e;
+  color: #e4a400;
+}
+
+.navbar-profile-showcontentbox-content-inside-fat {
+  font-weight: 900;
+  min-width: 200px;
+  display: inline-block;
+  padding-top: 5px;
+}
+
+.navbar-profile-showcontentbox-content-inside-fat p {
+  min-width: 95px;
+  display: inline-block;
+  text-align: right;
+}
+
+.navbar-profile-showcontentbox-content-inside-fat span {
+  padding-left: 30px;
+}
+
+.navbar-profile-showcontentbox-content-inside-normal {
+  padding-top: 8px;
+  font-weight: 500;
+  min-width: 200px;
+  display: inline-block;
+}
+
+.navbar-profile-showcontentbox-content-inside-button {
+  position: relative;
+  top: 15px;
+  right: 0px;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.navbar-profile-showcontentbox-content-inside-button button {
+  width: 65px;
+  height: 24px;
+}
+
+.navbar-profile-showcontentbox-content-inside-close {
+  position: relative;
+  top: 0px;
+  right: -5x;
+  width: 100%;
+}
+
+.navbar-profile-showcontentbox-content-inside-close button:first-of-type {
+  background-color: transparent;
+  height: 5px;
+  width: 10px;
+}
+
+.navbar-profile-showcontentbox-content-inside-close button:hover {
+  color: #ffd059;
+  background-color: transparent;
+  border: 0px;
+}
+
+.navbar-profile-showcontentbox-content-inside-close button:active {
+  border: 0px;
+  background-color: transparent;
+  color: #e4a400;
 }

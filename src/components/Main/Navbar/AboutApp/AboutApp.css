@@ -10,11 +10,11 @@
 }
 
 .navbar-aboutapp-text button:hover {
-  color: #408eaf;
+  color: #b0b4b1;
 }
 
 .navbar-aboutapp-text button:active {
-  color: #6ba4bc;
+  color: #898f8b;
 }
 
 .navbar-aboutapp-showcontentbox {
@@ -30,12 +30,12 @@
   height: 300px;
   top: 10px;
   z-index: 3;
-  background-color: rgba(0, 16, 23, 0.85);
+  background-color: rgba(39, 45, 41, 0.90);
   backdrop-filter: blur(2px);
   text-transform: none;
   font-size: 12px;
   padding: 5px 10px;
-  outline: 1px dotted #044c6d;
+  outline: 1px dotted #e4a400;
   outline-offset: 1px;
 }
 
@@ -63,25 +63,25 @@
 }
 
 .navbar-aboutapp-showcontentbox-content-textborder {
-  border-bottom: 1px dotted #408eaf;
+  border-bottom: 1px dotted #ffc32a;
   display: inline-block;
 }
 
 .navbar-aboutapp-showcontentbox-content-scrollbar {
   overflow-y: auto;
-  scrollbar-color: #003e59 #011b29;
+  scrollbar-color: #e4a400 #272d29;
   scrollbar-width: thin;
 }
 
 .navbar-aboutapp-showcontentbox-content::-webkit-scrollbar {
-  width: 10px;
-  background-color: #011b29;
+  width: 8px;
+  background-color: #272d29;
 }
 
 .navbar-aboutapp-showcontentbox-content::-webkit-scrollbar-thumb {
-  background-color: #003e59;
+  background-color: #e4a400;
 }
 
 .navbar-aboutapp-showcontentbox-content::-webkit-scrollbar-track {
-  background-color: #011b29;
+  background-color: #272d29;
 }

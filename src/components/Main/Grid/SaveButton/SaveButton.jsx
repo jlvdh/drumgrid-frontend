@@ -14,6 +14,7 @@ export default function SaveButton(props) {
   const [showFloatingBoxSave, setshowFloatingBoxSave] = useState(false);
   const [patternName, setPatternName] = useState("");
   const [saveSuccessful, setSaveSuccessful] = useState(false);
+  const [tooManyPatterns, setTooManyPatterns] = useState(false);
   const [service] = useState(new UserService());
   const context = useContext(AuthContext);
   const [patternExists, setPatternExists] = useState(false);
@@ -27,6 +28,7 @@ export default function SaveButton(props) {
   const closeFloatingSaveBoxCompleted = () => {
     setshowFloatingBoxSave(false);
     setSaveSuccessful(false);
+    setTooManyPatterns(false);
   };
 
   const checkDuplicate = () => {
@@ -43,7 +45,7 @@ export default function SaveButton(props) {
             const compareName = pattern.name.toUpperCase();
             if (compareName === cleanPatternName) {
               result = true;
-              patternId = pattern.id
+              patternId = pattern.id;
             }
           });
         }
@@ -78,6 +80,13 @@ export default function SaveButton(props) {
             console.log("save");
             setSaveSuccessful(true);
             setPatternExists(false);
+          }
+
+          if (result.error === "too many patterns already stored") {
+            console.log("bla");
+                        setSaveSuccessful(true);
+                        setPatternExists(false);
+                        setTooManyPatterns(true);
           }
         });
       }
@@ -141,6 +150,16 @@ export default function SaveButton(props) {
                       <button onClick={checkDuplicate}>STORE</button>
                     </div>
                   )}
+                </div>
+              ) : tooManyPatterns ? (
+                <div className="floating-save-box-container-patternerror">
+                  <span className="floating-save-box-container-patternerror-icon">
+                    <FontAwesomeIcon icon={faExclamationTriangle} />
+                  </span>
+                  <span>Too many patterns stored in your account!</span>
+                  <p>A maximum of 5 patterns are allowed.</p>
+                  <p>You will need to delete a pattern in order to save a new one.</p>
+                  <button onClick={closeFloatingSaveBoxCompleted}>CLOSE</button>
                 </div>
               ) : (
                 <div className="floating-save-box-container-saved">

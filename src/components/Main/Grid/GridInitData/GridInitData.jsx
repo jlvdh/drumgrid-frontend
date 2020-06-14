@@ -1,6 +1,6 @@
 const gridInitData = [
   {
-    pattern: "MyFirstPattern",
+    pattern: "Untitled Pattern",
     options: {
       tempo: 120,
       swing: 0,

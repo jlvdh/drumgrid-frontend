@@ -1,13 +1,13 @@
-import React, {useState} from "react";
-import "./AboutApp.css"
+import React, { useState } from "react";
+import "./AboutApp.css";
 
 export default function AboutApp() {
-  const [showAbout, setShowAbout] = useState(false)
+  const [showAbout, setShowAbout] = useState(false);
 
   const showAboutFrame = () => {
-    console.log('show about')
+    console.log("show about");
     setShowAbout(!showAbout);
-  }
+  };
 
   return (
     <span className="navbar-aboutapp-text">
@@ -53,9 +53,16 @@ export default function AboutApp() {
             <br />
             <p>
               I would like to thank everyone who was involved in making this little app. This includes the fantastic
-              teachers of the bootcamp (Thanks Jorg, Lloyd & Rana!), my classmates who are all amazing people, my
-              friends who helped me break this app enough times for it to work, and my wife who had to endure me and
-              code-speak during this period 🙈 Te quiero ❤️
+              teachers of the bootcamp (thanks Jorg, Lloyd & Rana!), my classmates who are all amazing people, my
+              friends who helped me break this app enough times for it to work, and my wife Nadia who helped me a lot
+              with the design and who had to endure me and my code-speak during these past months{" "}
+              <span role="img" aria-label="eyes closed">
+                🙈
+              </span>{" "}
+              Te quiero{" "}
+              <span role="img" aria-label="heart">
+                ❤️
+              </span>
             </p>
             <br />
 

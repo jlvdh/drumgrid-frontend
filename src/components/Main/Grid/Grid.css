@@ -1,259 +1,273 @@
 .grid-container {
-    /* background-color: sandybrown; */
-    width: 100%;
-    max-width: 1119px;
-    min-width: 745px;
-    
+  /* background-color: sandybrown; */
+  width: 100%;
+  max-width: 1119px;
+  min-width: 745px;
 }
 
 .grid-line {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: center;
-    height: 58px;
-    /* background-color: sandybrown;   */
-    padding-bottom: 2px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 58px;
+  /* background-color: sandybrown;   */
+  padding-bottom: 2px;
 }
 
 .grid-block-transport {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    margin-right: 2px;
-    background-color: #6A706C;
-    padding: 0 4px;
-    font-weight: 600;
-    font-size: 12px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-right: 2px;
+  background-color: #6a706c;
+  padding: 0 4px;
+  font-weight: 600;
+  font-size: 12px;
 }
 
 .grid-block-pattern {
-    display: flex;
-    justify-content: flex-start;
-    padding-left: 10px;
-    width: 237px;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 12px;
+  width: 235px;
+  max-width: 235px;
 }
 
 .grid-block-pattern-line {
-/* position: relative; */
-width: 23px;
-height: 0px;
-border: 1px solid #302E2E;
-transform: rotate(90deg);
+  position: relative;
+  width: 30px;
+  height: 0px;
+  border: 1px solid #302e2e;
+  transform: rotate(90deg);
+  margin: 0;
+  left: -3px;
+}
+
+.grid-block-pattern-nameblock {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  left: -5px;
 }
 
 .grid-block-pattern-name {
-    font-size: 12px;
-    font-weight: 400;
+  font-size: 12px;
+  font-weight: 600;
+  padding-bottom: 4px;
+}
+
+.grid-block-pattern-time {
+  font-size: 10px;
+  font-weight: 400;
 }
 
 .grid-block-reset-grid {
-    width: 104px;
-    height: 100%;
+  width: 104px;
+  height: 100%;
 }
 
 .grid-block-reset-grid button {
-    width: 104px;
-    height: 100%;
-    background-color: #6A706C;
-    color: white;
-    font-weight: 600;
-    font-size: 12px;
-    text-align: center;
-    border: 0px;
-    outline: 0px;
+  width: 104px;
+  height: 100%;
+  background-color: #6a706c;
+  color: white;
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+  border: 0px;
+  outline: 0px;
 }
 
 .grid-block-tempo-lane {
-    display: flex;
-    justify-content: flex-start;
-    width: 324px;
-    height: 100%;
-    font-weight: 600;
-    font-size: 12px;
-    background-color: #6A706C; 
-    padding-left: 12px;   
+  display: flex;
+  justify-content: flex-start;
+  width: 324px;
+  height: 100%;
+  font-weight: 600;
+  font-size: 12px;
+  background-color: #6a706c;
+  padding-left: 12px;
 }
 
 .grid-block-tempo-lane-arrow span:nth-child(2) {
-    position: relative;
-    left: -2px;
+  position: relative;
+  left: -2px;
 }
 
 .grid-block-tempo-lane-arrow {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .grid-block-tempo-lane-spacer {
-    padding-left: 12px;
-    font-size: 12px;
+  padding-left: 12px;
+  font-size: 12px;
 }
 
 .grid-block-tempo-lane-bpm {
-    margin-left: 16px;
-    font-weight: 500;
-    font-size: 10px;
-
+  margin-left: 16px;
+  font-weight: 500;
+  font-size: 10px;
 }
 
 .grid-block-tempo-lane-slider {
-    margin-left: 18px;
-    width: 160px;
-    font-size: 0px;
-    color: #6A706C;
-    position: relative;
-    top: 1px;
+  margin-left: 18px;
+  width: 160px;
+  font-size: 0px;
+  color: #6a706c;
+  position: relative;
+  top: 1px;
 }
 
-
 .grid-block-volume-lane {
-    display: flex;
-    justify-content: flex-start;
-    width: 210px;
-    height: 100%;
-    font-weight: 600;
-    font-size: 12px;
-    background-color: #6A706C; 
-    padding-left: 12px;   
+  display: flex;
+  justify-content: flex-start;
+  width: 210px;
+  height: 100%;
+  font-weight: 600;
+  font-size: 12px;
+  background-color: #6a706c;
+  padding-left: 12px;
 }
 
 .grid-block-volume-lane-speaker {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .grid-block-volume-lane-spacer {
-    padding-left: 12px;
-    font-size: 12px;
+  padding-left: 12px;
+  font-size: 12px;
 }
 
 .grid-block-volume-lane-slider {
-    margin-left: 18px;
-    width: 100px;
-    font-size: 0px;
-    color: #6A706C;
-    position: relative;
-    top: 1px;
+  margin-left: 18px;
+  width: 100px;
+  font-size: 0px;
+  color: #6a706c;
+  position: relative;
+  top: 1px;
 }
 
 .grid-block-save {
-    display: flex;
-    justify-content: center;
-    background-color: #592BAF; 
-    width: 96px;
-    padding-left: 12px;   
+  display: flex;
+  justify-content: center;
+  background-color: #592baf;
+  width: 96px;
+  padding-left: 12px;
 }
 
 .grid-block-save button {
-    width: 96px;
-    height: 100%;
-    font-weight: 600;
-    font-size: 12px;
-    background-color: #592BAF; 
-    color: white;
-    border: 0px;
-    outline: 0px;
+  width: 96px;
+  height: 100%;
+  font-weight: 600;
+  font-size: 12px;
+  background-color: #592baf;
+  color: white;
+  border: 0px;
+  outline: 0px;
 }
 
-.grid-icons-play button{
-    font-size: 20px;
-    width: 58px;
-    height: 100%;
-    background-color: inherit;
-    color: white;
-    border: 0px;
-    outline: 0;
+.grid-icons-play button {
+  font-size: 20px;
+  width: 58px;
+  height: 100%;
+  background-color: inherit;
+  color: white;
+  border: 0px;
+  outline: 0;
 }
 
 .grid-block-instrument {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-    align-items: center;
-    background-color: #6A706C;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #6a706c;
 }
 
 .grid-block-instrument-name {
-    width: 175px;
-    height: 100%;
-    font-weight: 600;
-    font-size: 12px;
-    padding: 0 15px;
-    margin-right: 1px;
-    background-color: #6A706C;
-    color: white;
-    text-transform: uppercase; 
-    flex: 0 0 auto;
+  width: 175px;
+  height: 100%;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 0 15px;
+  margin-right: 1px;
+  background-color: #6a706c;
+  color: white;
+  text-transform: uppercase;
+  flex: 0 0 auto;
 }
 
 .grid-block-instrument-name-button {
-    width: 175px;
-    height: 100%;
-    font-weight: 600;
-    font-size: 12px;
-    padding: 0 15px;
-    margin-right: 1px;
-    background-color: #6A706C;
-    color: white;
-    text-transform: uppercase; 
-    border: 0px;
-    outline: 0;
+  width: 175px;
+  height: 100%;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 0 15px;
+  margin-right: 1px;
+  background-color: #6a706c;
+  color: white;
+  text-transform: uppercase;
+  border: 0px;
+  outline: 0;
 }
 
 .grid-block-sequence {
-    width: 55px;
-    height: 100%;
-    margin: 0 1px;
-    background-color: #6A706C
-
+  width: 55px;
+  height: 100%;
+  margin: 0 1px;
+  background-color: #6a706c;
 }
 
 .grid-block-sequence-yellow {
-    width: 55px;
-    height: 100%;
-    margin: 0 1px;
-    background-color: #E4A400;
-
+  width: 55px;
+  height: 100%;
+  margin: 0 1px;
+  background-color: #e4a400;
 }
 
 .grid-pianoroll-line {
-width: 3px;
-position: fixed;
-top: 281px;
-background-color: #EDEDED;
-z-index: 1;
+  width: 3px;
+  position: fixed;
+  top: 281px;
+  background-color: #ededed;
+  z-index: 1;
 }
 
 .grid-bottom-line {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: #202221;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #202221;
 }
 
 .grid-bottom-plus {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 0 0 auto;
-    width: 175px;
-    padding: 0 15px;
-    margin-right: 1px;
-    height: 58px;
-    font-size: 24px;
-    background-color: #E4A400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+  width: 175px;
+  padding: 0 15px;
+  margin-right: 1px;
+  height: 58px;
+  font-size: 24px;
+  /* background-color: #E4A400; */
+  background-color: #202221;
 }
 
 .grid-bottom-numbers {
-    text-align: center;
-    font-weight: 500;
-    width: 55px;
-    margin: 0 1px;
-    color: #6B6565;
+  text-align: center;
+  font-weight: 500;
+  width: 55px;
+  margin: 0 1px;
+  color: #6b6565;
 }
 
 .grid-bottom-numbers:nth-child(4n-2) {
-    color: #A19796;
+  color: #a19796;
 }
