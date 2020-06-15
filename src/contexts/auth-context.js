@@ -24,8 +24,9 @@ export const AuthContextProvider = (props) => {
   }
 
   const logout = async () => {
-    let result = await service.logout();
-    setAppUser(null);
+    let result = await service.logout().then((response) => {
+      if (response.message === "User logged out succesfully") (setAppUser(null))
+    }).catch((e) => console.log(e))
     console.log('logged out', result)
   };
 

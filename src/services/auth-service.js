@@ -4,6 +4,7 @@ class AuthService {
   constructor() {
     this.service = axios.create({
       baseURL: "https://drumgrid.herokuapp.com/",
+      // baseURL: "http://localhost:5000",
       withCredentials: true,
       validateStatus: () => true,
     });
@@ -18,7 +19,7 @@ class AuthService {
   };
 
   logout = () => {
-    return this.service.post("/api/auth/logout").then((response) => response.data);
+    return this.service.get("/api/auth/logout").then((response) => response.data);
   };
 
   isAuthenticated = () => {
