@@ -81,6 +81,7 @@
   text-align: center;
   border: 0px;
   outline: 0px;
+    cursor: pointer;
 }
 
 .grid-block-tempo-lane {
@@ -179,6 +180,7 @@
   color: white;
   border: 0px;
   outline: 0;
+  cursor: pointer;
 }
 
 .grid-block-instrument {
@@ -200,6 +202,7 @@
   color: white;
   text-transform: uppercase;
   flex: 0 0 auto;
+    cursor: pointer;
 }
 
 .grid-block-instrument-name-button {

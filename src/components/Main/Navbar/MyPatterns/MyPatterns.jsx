@@ -7,7 +7,7 @@ import LoginBox from "../../Grid/LoginBox/LoginBox";
 
 // Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileAudio, faExclamationTriangle, faUpload, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faFileAudio, faExclamationTriangle, faUpload, faTrashAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 export default function MyPatterns() {
   const context = useContext(AuthContext);
@@ -63,7 +63,12 @@ export default function MyPatterns() {
           <div className="navbar-mypatterns-showcontentbox">
             <div className="navbar-mypatterns-showcontentbox-content-inside">
               {!context.appUser ? (
+                <>
+              <span onClick={() => showPatternFrame()} className="floating-save-box-close">
+                <FontAwesomeIcon icon={faTimes} />
+              </span>
                 <LoginBox />
+                </>
               ) : (
                 <span>
                   {currentPatterns ? (

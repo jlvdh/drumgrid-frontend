@@ -14,7 +14,7 @@ export default class Main extends Component {
   render() {
     return (
       <>
-        <div className="main-container">
+        <div className="main-container noselect">
           <div className="main-box">
             <header>
               <Navbar />

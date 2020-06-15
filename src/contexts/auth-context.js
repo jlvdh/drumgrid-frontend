@@ -14,9 +14,10 @@ export const AuthContextProvider = (props) => {
         if (response.username) {
           setAppUser(response);
         }
+        return response
       })
       .catch((error) => console.log(error));
-    console.log("inside context", result);
+    return result;
   };
 
   const checkLogin = async () => {

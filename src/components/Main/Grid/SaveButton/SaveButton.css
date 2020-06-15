@@ -16,14 +16,15 @@
   color: white;
   border: 0px;
   outline: 0px;
+  cursor: pointer;
 }
 
 .floating-save-box {
   position: absolute;
-  top: -102px;
-  left: -228px;
-  width: 340px;
-  height: 100px;
+  top: -124px;
+  left: -288px;
+  width: 400px;
+  height: 122px;
   background-color: #302E2E;
   color: white;
   font-weight: 600;

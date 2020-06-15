@@ -101,6 +101,9 @@ export default function SaveButton(props) {
           <button onClick={(e) => saveButton(e)}>SAVE</button>
           {showFloatingBoxSave && (
             <div className="floating-save-box floating-save-box-container">
+              <span onClick={closeFloatingSaveBox} className="floating-save-box-close">
+                <FontAwesomeIcon icon={faTimes} />
+              </span>
               <LoginBox />
             </div>
           )}

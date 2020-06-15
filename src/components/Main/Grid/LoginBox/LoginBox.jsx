@@ -5,7 +5,7 @@ import { AuthContext } from "../../../../contexts/auth-context";
 
 // Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHandPaper } from "@fortawesome/free-solid-svg-icons";
+import { faHandPaper, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function LoginBox() {
   const context = useContext(AuthContext);
@@ -13,13 +13,21 @@ export default function LoginBox() {
   const [signUp, setSignUp] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [wrongPassword, setWrongPassword] = useState(false);
   const service = new AuthService();
 
   const handleLoginFormSubmit = (event) => {
+    setWrongPassword(false);
     event.preventDefault();
-    context.makeLogin(username, password);
-    setUsername("");
-    setPassword("");
+    context.makeLogin(username, password).then((response) => {
+      if (!response.username) {
+        setWrongPassword(true);
+        setPassword("");
+      } else {
+        setUsername("");
+        setPassword("");
+      }
+    });
   };
 
   const handleSignupFormSubmit = (event) => {
@@ -58,37 +66,66 @@ export default function LoginBox() {
       ) : (
         <div className="loginbox-container">
           {firstScreen ? (
-            <span className="loginbox-container-prelogin">
-              <span className="loginbox-container-prelogin-icon">
-                <FontAwesomeIcon icon={faHandPaper} />
-              </span>
-              <span className="loginbox-container-prelogin-text">PLEASE LOG IN</span>
-              <button onClick={(e) => setFirstScreen(false)}>PROCEED</button>
+            <div className="loginbox-container-prelogin-box">
+              <div>
+                <span className="loginbox-container-prelogin-icon">
+                  <FontAwesomeIcon icon={faHandPaper} />
+                </span>
+              </div>
+              <div className="loginbox-container-prelogin-box-contents">
+                <span className="loginbox-container-prelogin-box-contents-header">PLEASE LOG IN</span>
+                <p>You are currently not logged in. Please log in to access your patterns.</p>
+                <button onClick={(e) => setFirstScreen(false)}>
+                  PROCEED
+                </button>
+              </div>
               <p className="loginbox-container-prelogin-signup" onClick={() => setSignUp(true)}>
-                Sign up instead?
+                <span>Sign up instead?</span>
               </p>
-            </span>
+            </div>
           ) : (
             <div className="loginbox-form">
               <form onSubmit={handleLoginFormSubmit}>
                 <div className="loginbox-form-header">
                   <div className="loginbox-form-text">USERNAME</div>
-                  <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                  {wrongPassword ? (
+                    <input
+                      className="loginbox-form-error"
+                      type="text"
+                      name="username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                  ) : (
+                    <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                  )}
                 </div>
                 <div className="loginbox-form-header">
                   <div className="loginbox-form-text">PASSWORD</div>
-                  <input
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                  {wrongPassword ? (
+                    <input
+                      className="loginbox-form-error"
+                      type="password"
+                      name="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  ) : (
+                    <input
+                      type="password"
+                      name="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  )}
                 </div>
                 <div className="loginbox-form-passwordreset" onClick={forgotPassword}>
                   FORGOT YOUR PASSWORD?
                 </div>
                 <div className="loginbox-form-submit">
-                  <button type="submit">LOGIN</button>
+                  <button type="submit">
+                    <FontAwesomeIcon icon={faSignInAlt} />
+                  </button>
                 </div>
               </form>
             </div>
