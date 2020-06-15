@@ -11,25 +11,34 @@ export const AuthContextProvider = (props) => {
     let result = await service
       .login(username, password)
       .then((response) => {
-        setAppUser(response);
+        if (response.username) {
+          setAppUser(response);
+        }
       })
       .catch((error) => console.log(error));
-      console.log("inside context", result);
+    console.log("inside context", result);
   };
 
   const checkLogin = async () => {
     await service.isAuthenticated().then((response) => {
-      if (response.username) {setAppUser(response)}
-    })
-  }
+      if (response.username) {
+        setAppUser(response);
+      }
+    });
+  };
 
   const logout = async () => {
-    let result = await service.logout().then((response) => {
-      if (response.message === "User logged out succesfully") (setAppUser(null))
-    }).catch((e) => console.log(e))
-    console.log('logged out', result)
+    let result = await service
+      .logout()
+      .then((response) => {
+        if (response.message === "User logged out succesfully") setAppUser(null);
+      })
+      .catch((e) => console.log(e));
+    console.log("logged out", result);
   };
 
   // return <AuthContext.Provider value={[appUser, setAppUser]}>{props.children}</AuthContext.Provider>;
-  return <AuthContext.Provider value={{ appUser, makeLogin, checkLogin, logout }}>{props.children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ appUser, makeLogin, checkLogin, logout }}>{props.children}</AuthContext.Provider>
+  );
 };
