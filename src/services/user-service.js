@@ -3,7 +3,7 @@ import axios from "axios";
 class UserService {
   constructor() {
     this.service = axios.create({
-      baseURL: "http://localhost:5000",
+      baseURL: "https://drumgrid.herokuapp.com/",
       withCredentials: true,
       validateStatus: () => true,
     });
