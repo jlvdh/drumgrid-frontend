@@ -22,7 +22,7 @@ export default function MyPatterns() {
     if (context.appUser) {
       getPatternsFromApi();
     }
-  }, [userUpdated, context.appUser, getPatternsFromApi]);
+  }, [userUpdated]);
 
   const showPatternFrame = () => {
     console.log("show pattern frame");
