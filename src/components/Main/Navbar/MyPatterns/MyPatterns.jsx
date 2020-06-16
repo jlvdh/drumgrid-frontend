@@ -18,18 +18,6 @@ export default function MyPatterns() {
   const [currentPatterns, setCurrentPatterns] = useState();
   const userUpdated = context.appUser;
 
-  useEffect(() => {
-    if (context.appUser) {
-      getPatternsFromApi();
-    }
-  }, [userUpdated]);
-
-  const showPatternFrame = () => {
-    console.log("show pattern frame");
-    setShowPatterns(!showPatterns);
-    getPatternsFromApi();
-  };
-
   const getPatternsFromApi = () => {
     service.getPatterns().then((result) => {
       if (context.appUser) {
@@ -37,6 +25,26 @@ export default function MyPatterns() {
       }
     });
   };
+
+  useEffect(() => {
+    if (context.appUser) {
+      service.getPatterns().then((result) => {
+        if (context.appUser) {
+          setCurrentPatterns(result);
+        }
+      });
+      // getPatternsFromApi();
+    }
+
+  }, [userUpdated, context.appUser, service]);
+
+  const showPatternFrame = () => {
+    console.log("show pattern frame");
+    setShowPatterns(!showPatterns);
+    getPatternsFromApi();
+  };
+
+
 
   const loadPattern = (patternId) => {
     console.log(`Load pattern with id: ${patternId}`);
